@@ -1,0 +1,9 @@
+__test__/
+node_modules/
+src/
+.gitignore
+.npmignore
+jest.base.config.js
+jest.config.js
+package-lock.json
+tsconfig.*.json
