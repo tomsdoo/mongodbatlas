@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "npm run build:cjs && npm run build:esm",
+    "build:esm": "tsc --project tsconfig.esm.json",
+    "build:cjs": "tsc --project tsconfig.cjs.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
