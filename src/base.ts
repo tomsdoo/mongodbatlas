@@ -1,7 +1,7 @@
 // @ts-expect-error
 import DigestFetch from "digest-fetch";
 
-class MongoDbAtlasBase {
+export class MongoDbAtlasBase {
   protected apiBaseUri: string;
   protected publicKey: string;
   protected privateKey: string;
