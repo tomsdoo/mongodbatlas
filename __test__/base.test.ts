@@ -49,4 +49,92 @@ describe("MongoDbAtlasBase", () => {
       password: "dummyPrivateKey",
     });
   });
+  describe("sendCore()", () => {
+    let spyGetClient: jest.Spied<any>;
+    beforeEach(() => {
+      spyGetClient = jest
+        .spyOn(MongoDbAtlasBase.prototype, "getClient")
+        .mockReturnValue({
+          fetch: async (url: string, options?: any) => Promise.resolve({
+            json: async () => Promise.resolve({
+              url,
+              options,
+            }),
+          }),
+        });
+    });
+
+    it("GET", async () => {
+      const dummyUrl = "dummyUrl";
+      const instance = new MongoDbAtlasBase(publicKey, privateKey);
+      expect(await instance.get(dummyUrl)).toEqual({
+        url: "dummyUrl",
+        options: {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+            accept: "application/json",
+          },
+        },
+      });
+      expect(spyGetClient).toHaveBeenCalled();
+    });
+
+    it("POST", async () => {
+      const dummyUrl = "dummyUrl";
+      const body = {
+        test: true,
+      };
+      const instance = new MongoDbAtlasBase(publicKey, privateKey);
+      expect(await instance.post(dummyUrl, body)).toEqual({
+        url: "dummyUrl",
+        options: {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            accept: "application/json",
+          },
+          body: JSON.stringify(body),
+        },
+      });
+      expect(spyGetClient).toHaveBeenCalled();
+    });
+
+    it("PUT", async () => {
+      const dummyUrl = "dummyUrl";
+      const body = {
+        test: true,
+      };
+      const instance = new MongoDbAtlasBase(publicKey, privateKey);
+      expect(await instance.put(dummyUrl, body)).toEqual({
+        url: "dummyUrl",
+        options: {
+          method: "PUT",
+          headers: {
+            "content-type": "application/json",
+            accept: "application/json",
+          },
+          body: JSON.stringify(body),
+        },
+      });
+      expect(spyGetClient).toHaveBeenCalled();
+    });
+
+    it("DELETE", async () => {
+      const dummyUrl = "dummyUrl";
+      const instance = new MongoDbAtlasBase(publicKey, privateKey);
+      expect(await instance.delete(dummyUrl)).toEqual({
+        url: "dummyUrl",
+        options: {
+          method: "DELETE",
+          headers: {
+            "content-type": "application/json",
+            accept: "application/json",
+          },
+        },
+      });
+      expect(spyGetClient).toHaveBeenCalled();
+    });
+
+  });
 });
