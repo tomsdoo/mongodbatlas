@@ -9,4 +9,8 @@ export class Project extends MongoDbAtlasBase {
   public async get(){
     return await super.get(`${this.apiBaseUri}/groups/${this.projectId}`);
   }
+  public async getFreeClusters(){
+    return await super.get(`${this.apiBaseUri}/groups/${this.projectId}/clusters`)
+      .then(({ results }) => results.filter((cluster: any) => cluster?.providerSettings?.instanceSizeName === "M0"));
+  }
 }

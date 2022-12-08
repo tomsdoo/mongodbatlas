@@ -40,4 +40,41 @@ describe("Project", () => {
     expect(await instance.get()).toEqual(mockedProject);
     expect(spyBaseGet).toHaveBeenCalledWith(`${instance.apiBaseUri}/groups/${projectId}`);
   });
+
+  it("getFreeClusters()", async () => {
+    const mockedValue = {
+      totalCount: 2,
+      results: [
+        {
+          id: "dummyClusterId",
+          providerSettings: {
+            providerName: "TENANT",
+            backingProviderName: "GCP",
+            instanceSizeName: "M0",
+          },
+        },
+        {
+          id: "dummyClusterIdAlt",
+          providerSettings: {
+            providerName: "TENANT",
+            backingProviderName: "GCP",
+            instanceSizeName: "M1",
+          },
+        },
+      ],
+    };
+    const spyBaseGet = jest
+      .spyOn(MongoDbAtlasBase.prototype, "get")
+      .mockReturnValue(Promise.resolve(mockedValue));
+    const instance = new Project(publicKey, privateKey, projectId);
+    expect(await instance.getFreeClusters()).toEqual([{
+      id: "dummyClusterId",
+      providerSettings: {
+        providerName: "TENANT",
+        backingProviderName: "GCP",
+        instanceSizeName: "M0",
+      },
+    }]);
+    expect(spyBaseGet).toHaveBeenCalledWith(`${instance.apiBaseUri}/groups/${projectId}/clusters`);
+  });
 });
