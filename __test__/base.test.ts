@@ -137,4 +137,64 @@ describe("MongoDbAtlasBase", () => {
     });
 
   });
+
+  describe("request", () => {
+    it("GET", async () => {
+      const mockedValue = {
+        test: true,
+      };
+      const spySendCore = jest
+        .spyOn(MongoDbAtlasBase.prototype, "sendCore")
+        .mockReturnValue(Promise.resolve(mockedValue));
+      const dummyUrl = "dummyUrl";
+      const instance = new MongoDbAtlasBase(publicKey, privateKey);
+      expect(await instance.get(dummyUrl)).toEqual(mockedValue);
+      expect(spySendCore).toHaveBeenCalledWith("GET", dummyUrl);
+    });
+
+    it("POST", async () => {
+      const body = {
+        test: "body",
+      };
+      const mockedValue = {
+        test: true,
+      };
+      const spySendCore = jest
+        .spyOn(MongoDbAtlasBase.prototype, "sendCore")
+        .mockReturnValue(Promise.resolve(mockedValue));
+      const dummyUrl = "dummyUrl";
+      const instance = new MongoDbAtlasBase(publicKey, privateKey);
+      expect(await instance.post(dummyUrl, body)).toEqual(mockedValue);
+      expect(spySendCore).toHaveBeenCalledWith("POST", dummyUrl, body);
+    });
+
+    it("PUT", async () => {
+      const body = {
+        test: "body",
+      };
+      const mockedValue = {
+        test: true,
+      };
+      const spySendCore = jest
+        .spyOn(MongoDbAtlasBase.prototype, "sendCore")
+        .mockReturnValue(Promise.resolve(mockedValue));
+      const dummyUrl = "dummyUrl";
+      const instance = new MongoDbAtlasBase(publicKey, privateKey);
+      expect(await instance.put(dummyUrl, body)).toEqual(mockedValue);
+      expect(spySendCore).toHaveBeenCalledWith("PUT", dummyUrl, body);
+    });
+
+    it("DELETE", async () => {
+      const mockedValue = {
+        test: true,
+      };
+      const spySendCore = jest
+        .spyOn(MongoDbAtlasBase.prototype, "sendCore")
+        .mockReturnValue(Promise.resolve(mockedValue));
+      const dummyUrl = "dummyUrl";
+      const instance = new MongoDbAtlasBase(publicKey, privateKey);
+      expect(await instance.delete(dummyUrl)).toEqual(mockedValue);
+      expect(spySendCore).toHaveBeenCalledWith("DELETE", dummyUrl);
+    });
+  });
 });
