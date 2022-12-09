@@ -36,4 +36,9 @@ export class Project extends MongoDbAtlasBase {
       `${this.apiBaseUri}/databaseUsers/admin/${username}`,
     );
   }
+  public async getIPs(){
+    return await this.getAll({
+      url: `${this.apiBaseUri}/accessList`,
+    });
+  }
 }

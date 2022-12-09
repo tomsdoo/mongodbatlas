@@ -172,7 +172,32 @@ describe("Project", () => {
       expect(await instance.removeAdminUser(username)).toEqual(mockedValue);
       expect(spyDelete).toHaveBeenCalledWith(`${instance.apiBaseUri}/databaseUsers/admin/${username}`);
     });
+  });
 
+  describe("getIPs()", () => {
+    it("success", async () => {
+      const mockedValue = [
+        {
+          cidrBlock: "111.111.111.111/24",
+          comment: "",
+          groupId: projectId,
+          links: [
+            {
+              href: "dummyLink",
+              rel: "self",
+            },
+          ],
+        },
+      ];
+      const spy = jest
+        .spyOn(Project.prototype, "getAll")
+        .mockReturnValue(Promise.resolve(mockedValue));
+      const instance = new Project(publicKey, privateKey, projectId);
+      expect(await instance.getIPs()).toEqual(mockedValue);
+      expect(spy).toHaveBeenCalledWith({
+        url: `${instance.apiBaseUri}/accessList`,
+      });
+    });
   });
 
 });
