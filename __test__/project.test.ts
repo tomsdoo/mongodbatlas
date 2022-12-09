@@ -29,6 +29,12 @@ describe("Project", () => {
     expect(new Project(publicKey, privateKey, projectId)).toHaveProperty("projectId", projectId);
   });
 
+  it("has apiBaseUri", () => {
+    const mongoDbAtlasBase = new MongoDbAtlasBase(publicKey, privateKey);
+    const instance = new Project(publicKey, privateKey, projectId);
+    expect(instance).toHaveProperty("apiBaseUri", `${mongoDbAtlasBase.apiBaseUri}/groups/${projectId}`);
+  });
+
   it("get()", async () => {
     const mockedProject = {
       name: "dummyProjectName",
@@ -38,7 +44,7 @@ describe("Project", () => {
       .mockReturnValue(Promise.resolve(mockedProject));
     const instance = new Project(publicKey, privateKey, projectId);
     expect(await instance.get()).toEqual(mockedProject);
-    expect(spyBaseGet).toHaveBeenCalledWith(`${instance.apiBaseUri}/groups/${projectId}`);
+    expect(spyBaseGet).toHaveBeenCalledWith(instance.apiBaseUri);
   });
 
   it("getFreeClusters()", async () => {
@@ -75,6 +81,6 @@ describe("Project", () => {
         instanceSizeName: "M0",
       },
     }]);
-    expect(spyBaseGet).toHaveBeenCalledWith(`${instance.apiBaseUri}/groups/${projectId}/clusters`);
+    expect(spyBaseGet).toHaveBeenCalledWith(`${instance.apiBaseUri}/clusters`);
   });
 });
