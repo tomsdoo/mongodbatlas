@@ -1,6 +1,12 @@
 // @ts-expect-error
 import DigestFetch from "digest-fetch";
 
+interface GetAllOptions {
+  url?: string;
+  itemsPerPage?: number;
+  transform?: Function;
+}
+
 export class MongoDbAtlasBase {
   protected apiBaseUri: string;
   protected publicKey: string;
@@ -26,6 +32,29 @@ export class MongoDbAtlasBase {
   }
   public async get(url: string){
     return await this.sendCore("GET", url);
+  }
+  public async getAll(options?: GetAllOptions){
+    const itemsPerPage = options?.itemsPerPage ?? 100;
+    const url = options?.url ?? this.apiBaseUri;
+    let pageNum = 1;
+    let items: any[] = [];
+    while(true){
+      const currentUrl = new URL(url);
+      Object.entries({
+        itemsPerPage,
+        pageNum,
+      }).forEach(([ key, value ]) => {
+        currentUrl.searchParams.append(key, value.toString());
+      });
+      const { results, totalCount } = await this.get(currentUrl.href);
+      items = [
+        ...items,
+        ...results.map(options?.transform ?? ((v: any) => v )),
+      ];
+      if(items.length >= totalCount){break;}
+      pageNum++;
+    }
+    return items;
   }
   public async post(url: string, body: any){
     return await this.sendCore("POST", url, body);
