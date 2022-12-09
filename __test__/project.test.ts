@@ -95,4 +95,84 @@ describe("Project", () => {
       url: `${instance.apiBaseUri}/databaseUsers`,
     });
   });
+
+  describe("addAdminUser()", () => {
+    it("error", async () => {
+      const mockedValue = {
+        detail: "The password provided is too weak, as it can be found in most commonly used password lists.",
+        error: 400,
+        erroCode: "COMMON_PASSWORD",
+        parameters: [],
+        reason: "Bad Request",
+      };
+      const username = "dummyUserName";
+      const password = "listedPassword";
+      const spyPost = jest
+        .spyOn(Project.prototype, "post")
+        .mockReturnValue(Promise.resolve(mockedValue));
+      const instance = new Project(publicKey, privateKey, projectId);
+      expect(await instance.addAdminUser(username, password)).toEqual(mockedValue);
+      expect(spyPost).toHaveBeenCalledWith(
+        `${instance.apiBaseUri}/databaseUsers`,
+        {
+          databaseName: "admin",
+          groupId: projectId,
+          roles: [{databaseName: "admin", roleName: "atlasAdmin"}],
+          username,
+          password,
+        },
+      );
+    });
+
+    it("success()", async () => {
+      const mockedValue = {};
+      const username = "dummyUserName";
+      const password = "dummyPassword1234!#";
+      const spyPost = jest
+        .spyOn(Project.prototype, "post")
+        .mockReturnValue(Promise.resolve(mockedValue));
+      const instance = new Project(publicKey, privateKey, projectId);
+      expect(await instance.addAdminUser(username, password)).toEqual(mockedValue);
+      expect(spyPost).toHaveBeenCalledWith(
+        `${instance.apiBaseUri}/databaseUsers`,
+        {
+          databaseName: "admin",
+          groupId: projectId,
+          roles: [{databaseName: "admin", roleName: "atlasAdmin"}],
+          username,
+          password,
+        },
+      );
+    });
+  });
+
+  describe("removeAdminUser()", () => {
+    it("404", async () => {
+      const mockedValue = {
+        status: 404,
+      };
+      const username = "dummyUserName";
+      const spyDelete = jest
+        .spyOn(Project.prototype, "delete")
+        .mockReturnValue(Promise.resolve(mockedValue));
+      const instance = new Project(publicKey, privateKey, projectId);
+      expect(await instance.removeAdminUser(username)).toEqual(mockedValue);
+      expect(spyDelete).toHaveBeenCalledWith(`${instance.apiBaseUri}/databaseUsers/admin/${username}`);
+    });
+
+    it("success", async () => {
+      const mockedValue = {
+        status: 204,
+      };
+      const username = "dummyUserName";
+      const spyDelete = jest
+        .spyOn(Project.prototype, "delete")
+        .mockReturnValue(Promise.resolve(mockedValue));
+      const instance = new Project(publicKey, privateKey, projectId);
+      expect(await instance.removeAdminUser(username)).toEqual(mockedValue);
+      expect(spyDelete).toHaveBeenCalledWith(`${instance.apiBaseUri}/databaseUsers/admin/${username}`);
+    });
+
+  });
+
 });

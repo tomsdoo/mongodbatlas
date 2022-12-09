@@ -28,7 +28,7 @@ export class MongoDbAtlasBase {
       },
       ...(body ? { body: JSON.stringify(body) } : {}),
     })
-      .then((res: any) => res.json());
+      .then((res: any) => res.json().catch((e: Error) => res));
   }
   public async get(url: string){
     return await this.sendCore("GET", url);

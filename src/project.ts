@@ -19,4 +19,21 @@ export class Project extends MongoDbAtlasBase {
       url: `${this.apiBaseUri}/databaseUsers`
     });
   }
+  public async addAdminUser(username: string, password: string) {
+    return await this.post(
+      `${this.apiBaseUri}/databaseUsers`,
+      {
+        databaseName: "admin",
+        groupId: this.projectId,
+        roles: [{databaseName: "admin", roleName: "atlasAdmin"}],
+        username,
+        password,
+      }
+    );
+  }
+  public async removeAdminUser(username: string){
+    return await this.delete(
+      `${this.apiBaseUri}/databaseUsers/admin/${username}`,
+    );
+  }
 }
