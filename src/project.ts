@@ -41,4 +41,15 @@ export class Project extends MongoDbAtlasBase {
       url: `${this.apiBaseUri}/accessList`,
     });
   }
+  public async addIP(ip: string){
+    return await this.post(
+      `${this.apiBaseUri}/accessList`,
+      [
+        {
+          cidrBlock: ip,
+        }
+      ]
+    );
+  }
+  
 }
