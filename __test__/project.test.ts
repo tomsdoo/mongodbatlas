@@ -83,4 +83,16 @@ describe("Project", () => {
     }]);
     expect(spyBaseGet).toHaveBeenCalledWith(`${instance.apiBaseUri}/clusters`);
   });
+
+  it("getUsers()", async () => {
+    const mockedValue = [];
+    const spyGetAll = jest
+      .spyOn(Project.prototype, "getAll")
+      .mockReturnValue(Promise.resolve(mockedValue));
+    const instance = new Project(publicKey, privateKey, projectId);
+    expect(await instance.getUsers()).toEqual(mockedValue);
+    expect(spyGetAll).toHaveBeenCalledWith({
+      url: `${instance.apiBaseUri}/databaseUsers`,
+    });
+  });
 });
