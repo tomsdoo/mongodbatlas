@@ -4,7 +4,7 @@ interface User {
   country: string;
   createdAt: string;
   emailAddress: string;
-  firstname: string;
+  firstName: string;
   id: string;
   lastAuth: string;
   lastName: string;
@@ -12,7 +12,7 @@ interface User {
     href: string;
     rel: string;
   }>;
-  mobileName: string;
+  mobileNumber: string;
   roles: Array<{
     groupId?: string;
     orgId?: string;
