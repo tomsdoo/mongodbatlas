@@ -9,6 +9,9 @@
     "build": "npm run build:cjs && npm run build:esm",
     "build:esm": "tsc --project tsconfig.esm.json",
     "build:cjs": "tsc --project tsconfig.cjs.json",
+    "format": "npm run format:src && npm run format:test",
+    "format:test": "prettier --write __test__/**/*.ts",
+    "format:src": "prettier --write src/**/*.ts",
     "test": "jest"
   },
   "repository": {
