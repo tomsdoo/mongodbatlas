@@ -17,7 +17,7 @@ interface User {
     groupId?: string;
     orgId?: string;
     roleName: string;
-  }>,
+  }>;
   teamIds: string[];
   username: string;
 }
