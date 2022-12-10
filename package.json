@@ -15,6 +15,7 @@
     "lint": "npm run lint:src && npm run lint:test",
     "lint:src": "eslint src/**/*.ts",
     "lint:test": "eslint __test__/**/*.ts",
+    "prepare": "husky install",
     "serve:doc": "mdbook --serve --directory docs",
     "test": "jest"
   },
@@ -45,6 +46,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^15.6.0",
     "eslint-plugin-promise": "^6.1.1",
+    "husky": "^8.0.2",
     "jest": "^29.3.1",
     "prettier": "^2.8.1",
     "ts-node": "^10.9.1",
