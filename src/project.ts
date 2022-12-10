@@ -59,7 +59,7 @@ interface DatabaseUser {
   awsIAMType: string;
   databaseName: string;
   groupId: string;
-  labels: any[],
+  labels: any[];
   ldapAuthType: string;
   links: Array<{
     href: string;
@@ -127,7 +127,10 @@ export class Project extends MongoDbAtlasBase {
     });
   }
 
-  public async addAdminUser(username: string, password: string): Promise<DatabaseUser> {
+  public async addAdminUser(
+    username: string,
+    password: string
+  ): Promise<DatabaseUser> {
     return await this.post(`${this.apiBaseUri}/databaseUsers`, {
       databaseName: "admin",
       groupId: this.projectId,
@@ -137,7 +140,7 @@ export class Project extends MongoDbAtlasBase {
     });
   }
 
-  public async removeAdminUser(username: string): Promise<{ status: number; }> {
+  public async removeAdminUser(username: string): Promise<{ status: number }> {
     return await this.delete(
       `${this.apiBaseUri}/databaseUsers/admin/${username}`
     );
@@ -149,7 +152,9 @@ export class Project extends MongoDbAtlasBase {
     });
   }
 
-  public async addIP(ip: string): Promise<{ totalCount: number; results: Access[]; }> {
+  public async addIP(
+    ip: string
+  ): Promise<{ totalCount: number; results: Access[] }> {
     return await this.post(`${this.apiBaseUri}/accessList`, [
       {
         cidrBlock: ip,
@@ -157,7 +162,7 @@ export class Project extends MongoDbAtlasBase {
     ]);
   }
 
-  public async removeIP(ip: string): Promise<{ status: number; }> {
+  public async removeIP(ip: string): Promise<{ status: number }> {
     return await this.delete(
       `${this.apiBaseUri}/accessList/${encodeURIComponent(ip)}`
     );

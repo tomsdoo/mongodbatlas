@@ -127,7 +127,9 @@ describe("Project", () => {
         },
       },
     ]);
-    expect(spyBaseGet).toHaveBeenCalledWith(`${instance.apiBaseUri as string}/clusters`);
+    expect(spyBaseGet).toHaveBeenCalledWith(
+      `${instance.apiBaseUri as string}/clusters`
+    );
   });
 
   it("getUsers()", async () => {
@@ -270,11 +272,14 @@ describe("Project", () => {
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.addIP("111.111.111.111/24")).toEqual(mockedValue);
-      expect(spy).toHaveBeenCalledWith(`${instance.apiBaseUri as string}/accessList`, [
-        {
-          cidrBlock: "111.111.111.111/24",
-        },
-      ]);
+      expect(spy).toHaveBeenCalledWith(
+        `${instance.apiBaseUri as string}/accessList`,
+        [
+          {
+            cidrBlock: "111.111.111.111/24",
+          },
+        ]
+      );
     });
 
     it("success", async () => {
@@ -299,11 +304,14 @@ describe("Project", () => {
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.addIP("111.111.111.111/24")).toEqual(mockedValue);
-      expect(spy).toHaveBeenCalledWith(`${instance.apiBaseUri as string}/accessList`, [
-        {
-          cidrBlock: "111.111.111.111/24",
-        },
-      ]);
+      expect(spy).toHaveBeenCalledWith(
+        `${instance.apiBaseUri as string}/accessList`,
+        [
+          {
+            cidrBlock: "111.111.111.111/24",
+          },
+        ]
+      );
     });
   });
 
