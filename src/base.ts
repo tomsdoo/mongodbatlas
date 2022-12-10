@@ -30,8 +30,8 @@ export class MongoDbAtlasBase {
     })
       .then((res: any) => res.json().catch((e: Error) => res));
   }
-  public async get(url: string){
-    return await this.sendCore("GET", url);
+  public async get(url?: string){
+    return await this.sendCore("GET", url ?? this.apiBaseUri);
   }
   public async getAll(options?: GetAllOptions){
     const itemsPerPage = options?.itemsPerPage ?? 100;
