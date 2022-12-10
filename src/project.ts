@@ -51,5 +51,10 @@ export class Project extends MongoDbAtlasBase {
       ]
     );
   }
-  
+  public async removeIP(ip: string){
+    return await this.delete(
+      `${this.apiBaseUri}/accessList/${encodeURIComponent(ip)}`,
+    );
+  }
+
 }
