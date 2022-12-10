@@ -1,5 +1,6 @@
 import { MongoDbAtlasBase } from "./base";
 import { Clusters } from "./clusters";
+import { Cluster } from "./cluster";
 
 export class Project extends MongoDbAtlasBase {
   protected projectId: string;
@@ -12,6 +13,9 @@ export class Project extends MongoDbAtlasBase {
   }
   public get clusters(){
     return this._clusters;
+  }
+  public cluster(clusterName: string){
+    return new Cluster(this.publicKey, this.privateKey, this.projectId, clusterName);
   }
   public async get(url?: string){
     return await super.get(url ?? this.apiBaseUri);

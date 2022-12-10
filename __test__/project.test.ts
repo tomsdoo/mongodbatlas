@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, it, expect, jest } from "@jest/globals
 import { MongoDbAtlasBase } from "@/base";
 import { Project } from "@/project";
 import { Clusters } from "@/clusters";
+import { Cluster } from "@/cluster";
 
 describe("Project", () => {
   const publicKey = "dummyPublicKey";
@@ -41,6 +42,14 @@ describe("Project", () => {
       const instance = new Project(publicKey, privateKey, projectId);
       expect(instance).toHaveProperty("clusters");
       expect(instance.clusters instanceof Clusters).toBe(true);
+    });
+  });
+
+  describe("clsuter()", () => {
+    it("instance of Cluster", () => {
+      const clusterName = "dummyClusterName";
+      const clusterInstance = new Project(publicKey, privateKey, projectId).cluster(clusterName);
+      expect(clusterInstance instanceof Cluster).toBe(true);
     });
   });
 
