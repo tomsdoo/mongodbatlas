@@ -61,4 +61,22 @@ describe("Projects", () => {
     });
     expect(spyGet).toHaveBeenCalledTimes(2);
   });
+
+  it("add()", async () => {
+    const orgId = "dummyOrgId";
+    const name = "dummyName";
+    const mockedValue = {};
+    const spyPost = jest
+      .spyOn(Projects.prototype, "post")
+      .mockReturnValue(Promise.resolve(mockedValue));
+    const instance = new Projects(publicKey, privateKey);
+    expect(await instance.add(orgId, name)).toEqual(mockedValue);
+    expect(spyPost).toHaveBeenCalledWith(
+      instance.apiBaseUri,
+      {
+        orgId,
+        name,
+      },
+    );
+  });
 });
