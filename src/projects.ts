@@ -31,4 +31,14 @@ export class Projects extends MongoDbAtlasBase {
       })
     });
   }
+
+  public async add(orgId: string, name: string){
+    return await this.post(
+      this.apiBaseUri,
+      {
+        name,
+        orgId,
+      },
+    );
+  }
  }
