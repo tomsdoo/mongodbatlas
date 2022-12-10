@@ -28,7 +28,36 @@ describe("Organization", () => {
     it("has apiBaseUri", () => {
       const base = new MongoDbAtlasBase(publicKey, privateKey);
       const instance = new Organization(publicKey, privateKey, orgId);
-      expect(instance).toHaveProperty("apiBaseUri", `${base.apiBaseUri}/orgs`);
+      expect(instance).toHaveProperty("apiBaseUri", `${base.apiBaseUri}/orgs/${orgId}`);
+    });
+  });
+
+  describe("getUsers()", () => {
+    it("success", async () => {
+      const mockedValue = [
+        {
+          country: "US",
+          createdAt: "2000-01-01T00:00:00Z",
+          emailAddress: "someone@dom.ain",
+          firstName: "firstName",
+          id: "dummyUserId",
+          lastAuth: "2000-01-01T00:00:00Z",
+          lastName: "lastName",
+          links: [],
+          mobileNumber: "",
+          roles: [],
+          teamIds: [],
+          username: "someone@dom.ain",
+        },
+      ];
+      const spyGetAll = jest
+        .spyOn(Organization.prototype, "getAll")
+        .mockReturnValue(Promise.resolve(mockedValue));
+      const instance = new Organization(publicKey, privateKey, orgId);
+      expect(await instance.getUsers()).toEqual(mockedValue);
+      expect(spyGetAll).toHaveBeenCalledWith({
+        url: `${instance.apiBaseUri}/users`,
+      });
     });
   });
 });
