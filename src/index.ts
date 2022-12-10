@@ -1,3 +1,4 @@
+import { Organization } from "./organization";
 import { Organizations } from "./organizations";
 import { Projects } from "./projects";
 import { Project } from "./project";
@@ -21,6 +22,9 @@ export class MongoDbAtlas {
   }
   public get projects(){
     return this._projects;
+  }
+  public organization(orgId: string){
+    return new Organization(this.publicKey, this.privateKey, orgId);
   }
   public project(projectId: string){
     return new Project(this.publicKey, this.privateKey, projectId);
