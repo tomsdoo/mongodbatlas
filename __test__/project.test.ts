@@ -257,4 +257,36 @@ describe("Project", () => {
     });
   });
 
+  describe("removeIP()", () => {
+    it("404", async () => {
+      const ip = "111.111.111.111/12";
+      const mockedValue = {
+        detail: `IP Address ${ip} not on Atlas access list for group ${projectId}.`,
+        error: 404,
+        errorCode: "ATLAS_NETWORK_PERMISSION_ENTRY_NOT_FOUND",
+        parameters: [ip, projectId],
+        reason: "Not Found",
+      };
+      const spyDelete = jest
+        .spyOn(Project.prototype, "delete")
+        .mockReturnValue(Promise.resolve(mockedValue));
+      const instance = new Project(publicKey, privateKey, projectId);
+      expect(await instance.removeIP(ip)).toEqual(mockedValue);
+      expect(spyDelete).toHaveBeenCalledWith(`${instance.apiBaseUri}/accessList/${encodeURIComponent(ip)}`);
+    });
+
+    it("success", async () => {
+      const ip = "111.111.111.111/12";
+      const mockedValue = {
+        status: 204,
+      };
+      const spyDelete = jest
+        .spyOn(Project.prototype, "delete")
+        .mockReturnValue(Promise.resolve(mockedValue));
+      const instance = new Project(publicKey, privateKey, projectId);
+      expect(await instance.removeIP(ip)).toEqual(mockedValue);
+      expect(spyDelete).toHaveBeenCalledWith(`${instance.apiBaseUri}/accessList/${encodeURIComponent(ip)}`);
+    });
+  });
+
 });
