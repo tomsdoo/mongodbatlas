@@ -12,4 +12,9 @@ export class Organization extends MongoDbAtlasBase {
       url: `${this.apiBaseUri}/users`,
     });
   }
+  public async getProjects(){
+    return this.getAll({
+      url: `${this.apiBaseUri}/groups`,
+    });
+  }
 }
