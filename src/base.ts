@@ -72,7 +72,7 @@ export class MongoDbAtlasBase {
     return await this.sendCore("PUT", url, body);
   }
 
-  public async delete(url: string): Promise<any> {
-    return await this.sendCore("DELETE", url);
+  public async delete(url?: string): Promise<any> {
+    return await this.sendCore("DELETE", url ?? this.apiBaseUri);
   }
 }
