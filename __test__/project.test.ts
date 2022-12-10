@@ -1,4 +1,11 @@
-import { afterEach, beforeEach, describe, it, expect, jest } from "@jest/globals";
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  it,
+  expect,
+  jest,
+} from "@jest/globals";
 import { MongoDbAtlasBase } from "@/base";
 import { Project } from "@/project";
 import { Clusters } from "@/clusters";
@@ -17,25 +24,40 @@ describe("Project", () => {
 
   describe("constructor", () => {
     it("inherits MongoDbAtlasBase", () => {
-      expect(new Project(publicKey, privateKey, projectId) instanceof MongoDbAtlasBase).toBe(true);
+      expect(
+        new Project(publicKey, privateKey, projectId) instanceof
+          MongoDbAtlasBase
+      ).toBe(true);
     });
 
     it("has publicKey", () => {
-      expect(new Project(publicKey, privateKey, projectId)).toHaveProperty("publicKey", publicKey);
+      expect(new Project(publicKey, privateKey, projectId)).toHaveProperty(
+        "publicKey",
+        publicKey
+      );
     });
 
     it("has privateKey", () => {
-      expect(new Project(publicKey, privateKey, projectId)).toHaveProperty("privateKey", privateKey);
+      expect(new Project(publicKey, privateKey, projectId)).toHaveProperty(
+        "privateKey",
+        privateKey
+      );
     });
 
     it("has projectId", () => {
-      expect(new Project(publicKey, privateKey, projectId)).toHaveProperty("projectId", projectId);
+      expect(new Project(publicKey, privateKey, projectId)).toHaveProperty(
+        "projectId",
+        projectId
+      );
     });
 
     it("has apiBaseUri", () => {
       const mongoDbAtlasBase = new MongoDbAtlasBase(publicKey, privateKey);
       const instance = new Project(publicKey, privateKey, projectId);
-      expect(instance).toHaveProperty("apiBaseUri", `${mongoDbAtlasBase.apiBaseUri}/groups/${projectId}`);
+      expect(instance).toHaveProperty(
+        "apiBaseUri",
+        `${mongoDbAtlasBase.apiBaseUri}/groups/${projectId}`
+      );
     });
 
     it("has clusters", () => {
@@ -48,7 +70,11 @@ describe("Project", () => {
   describe("clsuter()", () => {
     it("instance of Cluster", () => {
       const clusterName = "dummyClusterName";
-      const clusterInstance = new Project(publicKey, privateKey, projectId).cluster(clusterName);
+      const clusterInstance = new Project(
+        publicKey,
+        privateKey,
+        projectId
+      ).cluster(clusterName);
       expect(clusterInstance instanceof Cluster).toBe(true);
     });
   });
@@ -91,14 +117,16 @@ describe("Project", () => {
       .spyOn(MongoDbAtlasBase.prototype, "get")
       .mockReturnValue(Promise.resolve(mockedValue));
     const instance = new Project(publicKey, privateKey, projectId);
-    expect(await instance.getFreeClusters()).toEqual([{
-      id: "dummyClusterId",
-      providerSettings: {
-        providerName: "TENANT",
-        backingProviderName: "GCP",
-        instanceSizeName: "M0",
+    expect(await instance.getFreeClusters()).toEqual([
+      {
+        id: "dummyClusterId",
+        providerSettings: {
+          providerName: "TENANT",
+          backingProviderName: "GCP",
+          instanceSizeName: "M0",
+        },
       },
-    }]);
+    ]);
     expect(spyBaseGet).toHaveBeenCalledWith(`${instance.apiBaseUri}/clusters`);
   });
 
@@ -117,7 +145,8 @@ describe("Project", () => {
   describe("addAdminUser()", () => {
     it("error", async () => {
       const mockedValue = {
-        detail: "The password provided is too weak, as it can be found in most commonly used password lists.",
+        detail:
+          "The password provided is too weak, as it can be found in most commonly used password lists.",
         error: 400,
         erroCode: "COMMON_PASSWORD",
         parameters: [],
@@ -129,16 +158,18 @@ describe("Project", () => {
         .spyOn(Project.prototype, "post")
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
-      expect(await instance.addAdminUser(username, password)).toEqual(mockedValue);
+      expect(await instance.addAdminUser(username, password)).toEqual(
+        mockedValue
+      );
       expect(spyPost).toHaveBeenCalledWith(
         `${instance.apiBaseUri}/databaseUsers`,
         {
           databaseName: "admin",
           groupId: projectId,
-          roles: [{databaseName: "admin", roleName: "atlasAdmin"}],
+          roles: [{ databaseName: "admin", roleName: "atlasAdmin" }],
           username,
           password,
-        },
+        }
       );
     });
 
@@ -150,16 +181,18 @@ describe("Project", () => {
         .spyOn(Project.prototype, "post")
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
-      expect(await instance.addAdminUser(username, password)).toEqual(mockedValue);
+      expect(await instance.addAdminUser(username, password)).toEqual(
+        mockedValue
+      );
       expect(spyPost).toHaveBeenCalledWith(
         `${instance.apiBaseUri}/databaseUsers`,
         {
           databaseName: "admin",
           groupId: projectId,
-          roles: [{databaseName: "admin", roleName: "atlasAdmin"}],
+          roles: [{ databaseName: "admin", roleName: "atlasAdmin" }],
           username,
           password,
-        },
+        }
       );
     });
   });
@@ -175,7 +208,9 @@ describe("Project", () => {
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.removeAdminUser(username)).toEqual(mockedValue);
-      expect(spyDelete).toHaveBeenCalledWith(`${instance.apiBaseUri}/databaseUsers/admin/${username}`);
+      expect(spyDelete).toHaveBeenCalledWith(
+        `${instance.apiBaseUri}/databaseUsers/admin/${username}`
+      );
     });
 
     it("success", async () => {
@@ -188,7 +223,9 @@ describe("Project", () => {
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.removeAdminUser(username)).toEqual(mockedValue);
-      expect(spyDelete).toHaveBeenCalledWith(`${instance.apiBaseUri}/databaseUsers/admin/${username}`);
+      expect(spyDelete).toHaveBeenCalledWith(
+        `${instance.apiBaseUri}/databaseUsers/admin/${username}`
+      );
     });
   });
 
@@ -221,10 +258,11 @@ describe("Project", () => {
   describe("addIP()", () => {
     it("400", async () => {
       const mockedValue = {
-        detail: "The address null must be in valid IP address or CIDR notation.",
+        detail:
+          "The address null must be in valid IP address or CIDR notation.",
         error: 400,
         errorCode: "INVALID_IP_ADDRESS_OR_CIDR_NOTATION",
-        parameters: [ null ],
+        parameters: [null],
         reason: "Bad Request",
       };
       const spy = jest
@@ -232,14 +270,11 @@ describe("Project", () => {
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.addIP("111.111.111.111/24")).toEqual(mockedValue);
-      expect(spy).toHaveBeenCalledWith(
-        `${instance.apiBaseUri}/accessList`,
-        [
-          {
-            cidrBlock: "111.111.111.111/24",
-          }
-        ],
-      );
+      expect(spy).toHaveBeenCalledWith(`${instance.apiBaseUri}/accessList`, [
+        {
+          cidrBlock: "111.111.111.111/24",
+        },
+      ]);
     });
 
     it("success", async () => {
@@ -264,14 +299,11 @@ describe("Project", () => {
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.addIP("111.111.111.111/24")).toEqual(mockedValue);
-      expect(spy).toHaveBeenCalledWith(
-        `${instance.apiBaseUri}/accessList`,
-        [
-          {
-            cidrBlock: "111.111.111.111/24",
-          }
-        ],
-      );
+      expect(spy).toHaveBeenCalledWith(`${instance.apiBaseUri}/accessList`, [
+        {
+          cidrBlock: "111.111.111.111/24",
+        },
+      ]);
     });
   });
 
@@ -290,7 +322,9 @@ describe("Project", () => {
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.removeIP(ip)).toEqual(mockedValue);
-      expect(spyDelete).toHaveBeenCalledWith(`${instance.apiBaseUri}/accessList/${encodeURIComponent(ip)}`);
+      expect(spyDelete).toHaveBeenCalledWith(
+        `${instance.apiBaseUri}/accessList/${encodeURIComponent(ip)}`
+      );
     });
 
     it("success", async () => {
@@ -303,8 +337,9 @@ describe("Project", () => {
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.removeIP(ip)).toEqual(mockedValue);
-      expect(spyDelete).toHaveBeenCalledWith(`${instance.apiBaseUri}/accessList/${encodeURIComponent(ip)}`);
+      expect(spyDelete).toHaveBeenCalledWith(
+        `${instance.apiBaseUri}/accessList/${encodeURIComponent(ip)}`
+      );
     });
   });
-
 });

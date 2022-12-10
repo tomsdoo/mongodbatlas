@@ -1,4 +1,11 @@
-import { afterEach, beforeEach, describe, it, expect, jest } from "@jest/globals";
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  it,
+  expect,
+  jest,
+} from "@jest/globals";
 import { MongoDbAtlasBase } from "@/base";
 import { Organizations } from "@/organizations";
 
@@ -32,5 +39,4 @@ describe("Organizations", () => {
     const instance = new Organizations(publicKey, privateKey);
     expect(instance.apiBaseUri).toBe(`${base.apiBaseUri}/orgs`);
   });
-
 });

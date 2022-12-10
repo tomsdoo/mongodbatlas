@@ -1,4 +1,11 @@
-import { afterEach, beforeEach, describe, it, expect, jest } from "@jest/globals";
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  it,
+  expect,
+  jest,
+} from "@jest/globals";
 import { MongoDbAtlasBase } from "@/base";
 import { Clusters } from "@/clusters";
 
@@ -16,7 +23,10 @@ describe("Clusters", () => {
     it("has apiBaseUri", () => {
       const base = new MongoDbAtlasBase(publicKey, privateKey);
       const instance = new Clusters(publicKey, privateKey, projectId);
-      expect(instance).toHaveProperty("apiBaseUri", `${base.apiBaseUri}/groups/${projectId}/clusters`);
+      expect(instance).toHaveProperty(
+        "apiBaseUri",
+        `${base.apiBaseUri}/groups/${projectId}/clusters`
+      );
     });
   });
 });
