@@ -12,7 +12,9 @@
     "format": "npm run format:src && npm run format:test",
     "format:test": "prettier --write __test__/**/*.ts",
     "format:src": "prettier --write src/**/*.ts",
+    "lint": "npm run lint:src && npm run lint:test",
     "lint:src": "eslint src/**/*.ts",
+    "lint:test": "eslint __test__/**/*.ts",
     "test": "jest"
   },
   "repository": {
