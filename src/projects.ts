@@ -12,8 +12,11 @@ interface Project {
   orgId: string;
 }
 
-interface Options {
-  interval?: number;
+interface ProjectInfo {
+  id: string;
+  name: string;
+  href: string;
+  orgId: string;
 }
 
 export class Projects extends MongoDbAtlasBase {
@@ -21,7 +24,8 @@ export class Projects extends MongoDbAtlasBase {
     super(publicKey, privateKey);
     this.apiBaseUri = `${this.apiBaseUri}/groups`;
   }
-  public async getAll() {
+
+  public async getAll(): Promise<ProjectInfo[]> {
     return await super.getAll({
       transform: ({ id, name, links, orgId }: Project) => ({
         id,
@@ -32,7 +36,7 @@ export class Projects extends MongoDbAtlasBase {
     });
   }
 
-  public async add(orgId: string, name: string) {
+  public async add(orgId: string, name: string): Promise<Project> {
     return await this.post(this.apiBaseUri, {
       name,
       orgId,

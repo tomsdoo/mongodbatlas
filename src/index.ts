@@ -17,16 +17,20 @@ export class MongoDbAtlas {
     this._projects = new Projects(this.publicKey, this.privateKey);
     this._organizations = new Organizations(this.publicKey, this.privateKey);
   }
-  public get organizations() {
+
+  public get organizations(): Organizations {
     return this._organizations;
   }
-  public get projects() {
+
+  public get projects(): Projects {
     return this._projects;
   }
-  public organization(orgId: string) {
+
+  public organization(orgId: string): Organization {
     return new Organization(this.publicKey, this.privateKey, orgId);
   }
-  public project(projectId: string) {
+
+  public project(projectId: string): Project {
     return new Project(this.publicKey, this.privateKey, projectId);
   }
 }

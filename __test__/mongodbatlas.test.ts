@@ -14,6 +14,12 @@ describe("MongoDbAtlas", () => {
   const publicKey = "dummyPublicKey";
   const privateKey = "dummyPrivateKey";
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  beforeEach(() => {});
+
   it("has pubicKey", () => {
     expect(new MongoDbAtlas(publicKey, privateKey)).toHaveProperty(
       "publicKey",

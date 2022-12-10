@@ -56,7 +56,7 @@ describe("Project", () => {
       const instance = new Project(publicKey, privateKey, projectId);
       expect(instance).toHaveProperty(
         "apiBaseUri",
-        `${mongoDbAtlasBase.apiBaseUri}/groups/${projectId}`
+        `${mongoDbAtlasBase.apiBaseUri as string}/groups/${projectId}`
       );
     });
 
@@ -127,7 +127,7 @@ describe("Project", () => {
         },
       },
     ]);
-    expect(spyBaseGet).toHaveBeenCalledWith(`${instance.apiBaseUri}/clusters`);
+    expect(spyBaseGet).toHaveBeenCalledWith(`${instance.apiBaseUri as string}/clusters`);
   });
 
   it("getUsers()", async () => {
@@ -138,7 +138,7 @@ describe("Project", () => {
     const instance = new Project(publicKey, privateKey, projectId);
     expect(await instance.getUsers()).toEqual(mockedValue);
     expect(spyGetAll).toHaveBeenCalledWith({
-      url: `${instance.apiBaseUri}/databaseUsers`,
+      url: `${instance.apiBaseUri as string}/databaseUsers`,
     });
   });
 
@@ -162,7 +162,7 @@ describe("Project", () => {
         mockedValue
       );
       expect(spyPost).toHaveBeenCalledWith(
-        `${instance.apiBaseUri}/databaseUsers`,
+        `${instance.apiBaseUri as string}/databaseUsers`,
         {
           databaseName: "admin",
           groupId: projectId,
@@ -185,7 +185,7 @@ describe("Project", () => {
         mockedValue
       );
       expect(spyPost).toHaveBeenCalledWith(
-        `${instance.apiBaseUri}/databaseUsers`,
+        `${instance.apiBaseUri as string}/databaseUsers`,
         {
           databaseName: "admin",
           groupId: projectId,
@@ -209,7 +209,7 @@ describe("Project", () => {
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.removeAdminUser(username)).toEqual(mockedValue);
       expect(spyDelete).toHaveBeenCalledWith(
-        `${instance.apiBaseUri}/databaseUsers/admin/${username}`
+        `${instance.apiBaseUri as string}/databaseUsers/admin/${username}`
       );
     });
 
@@ -224,7 +224,7 @@ describe("Project", () => {
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.removeAdminUser(username)).toEqual(mockedValue);
       expect(spyDelete).toHaveBeenCalledWith(
-        `${instance.apiBaseUri}/databaseUsers/admin/${username}`
+        `${instance.apiBaseUri as string}/databaseUsers/admin/${username}`
       );
     });
   });
@@ -250,7 +250,7 @@ describe("Project", () => {
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.getIPs()).toEqual(mockedValue);
       expect(spy).toHaveBeenCalledWith({
-        url: `${instance.apiBaseUri}/accessList`,
+        url: `${instance.apiBaseUri as string}/accessList`,
       });
     });
   });
@@ -270,7 +270,7 @@ describe("Project", () => {
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.addIP("111.111.111.111/24")).toEqual(mockedValue);
-      expect(spy).toHaveBeenCalledWith(`${instance.apiBaseUri}/accessList`, [
+      expect(spy).toHaveBeenCalledWith(`${instance.apiBaseUri as string}/accessList`, [
         {
           cidrBlock: "111.111.111.111/24",
         },
@@ -299,7 +299,7 @@ describe("Project", () => {
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.addIP("111.111.111.111/24")).toEqual(mockedValue);
-      expect(spy).toHaveBeenCalledWith(`${instance.apiBaseUri}/accessList`, [
+      expect(spy).toHaveBeenCalledWith(`${instance.apiBaseUri as string}/accessList`, [
         {
           cidrBlock: "111.111.111.111/24",
         },
@@ -323,7 +323,7 @@ describe("Project", () => {
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.removeIP(ip)).toEqual(mockedValue);
       expect(spyDelete).toHaveBeenCalledWith(
-        `${instance.apiBaseUri}/accessList/${encodeURIComponent(ip)}`
+        `${instance.apiBaseUri as string}/accessList/${encodeURIComponent(ip)}`
       );
     });
 
@@ -338,7 +338,7 @@ describe("Project", () => {
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.removeIP(ip)).toEqual(mockedValue);
       expect(spyDelete).toHaveBeenCalledWith(
-        `${instance.apiBaseUri}/accessList/${encodeURIComponent(ip)}`
+        `${instance.apiBaseUri as string}/accessList/${encodeURIComponent(ip)}`
       );
     });
   });
