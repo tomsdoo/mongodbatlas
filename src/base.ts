@@ -16,10 +16,13 @@ export class MongoDbAtlasBase {
     this.publicKey = publicKey;
     this.privateKey = privateKey;
   }
-  protected getClient() {
+
+  protected getClient(): DigestFetch {
     return new DigestFetch(this.publicKey, this.privateKey);
   }
-  protected async sendCore(method: string, url: string, body?: any) {
+
+  protected async sendCore(method: string, url: string, body?: any): Promise<any> {
+    // eslint-disable-next-line @typescript-eslint/return-await
     return await this.getClient()
       .fetch(url, {
         method,
@@ -27,14 +30,18 @@ export class MongoDbAtlasBase {
           "content-type": "application/json",
           accept: "application/json",
         },
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         ...(body ? { body: JSON.stringify(body) } : {}),
       })
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       .then((res: any) => res.json().catch((e: Error) => res));
   }
-  public async get(url?: string) {
+
+  public async get(url?: string): Promise<any> {
     return await this.sendCore("GET", url ?? this.apiBaseUri);
   }
-  public async getAll(options?: GetAllOptions) {
+
+  public async getAll(options?: GetAllOptions): Promise<any[]> {
     const itemsPerPage = options?.itemsPerPage ?? 100;
     const url = options?.url ?? this.apiBaseUri;
     let pageNum = 1;
@@ -56,13 +63,16 @@ export class MongoDbAtlasBase {
     }
     return items;
   }
-  public async post(url: string, body: any) {
+
+  public async post(url: string, body: any): Promise<any> {
     return await this.sendCore("POST", url, body);
   }
-  public async put(url: string, body: any) {
+
+  public async put(url: string, body: any): Promise<any> {
     return await this.sendCore("PUT", url, body);
   }
-  public async delete(url: string) {
+
+  public async delete(url: string): Promise<any> {
     return await this.sendCore("DELETE", url);
   }
 }
