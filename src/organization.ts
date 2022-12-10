@@ -5,6 +5,11 @@ export class Organization extends MongoDbAtlasBase {
   constructor(publicKey: string, privateKey: string, orgId: string){
     super(publicKey, privateKey);
     this.orgId = orgId;
-    this.apiBaseUri = `${this.apiBaseUri}/orgs`;
+    this.apiBaseUri = `${this.apiBaseUri}/orgs/${orgId}`;
+  }
+  public async getUsers(){
+    return this.getAll({
+      url: `${this.apiBaseUri}/users`,
+    });
   }
 }
