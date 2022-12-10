@@ -19,6 +19,16 @@
     "serve:doc": "mdbook --serve --directory docs",
     "test": "jest"
   },
+  "lint-staged": {
+    "__test__/**/*.ts": [
+      "npm run lint:test",
+      "npm run format:test"
+    ],
+    "src/**/*.ts": [
+      "npm run lint:src",
+      "npm run format:src"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tomsdoo/mongodbatlas.git"
