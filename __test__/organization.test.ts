@@ -60,4 +60,28 @@ describe("Organization", () => {
       });
     });
   });
+
+  describe("getProjects()", () => {
+    it("success", async () => {
+      const mockedValue = [
+        {
+          clusterCount: 1,
+          created: "2000-01-01T00:00:00Z",
+          id: "dummyProjectId",
+          links: [],
+          name: "dummyProjectName",
+          orgId: "dummyOrgId",
+        },
+      ];
+      const spyGetAll = jest
+        .spyOn(Organization.prototype, "getAll")
+        .mockReturnValue(Promise.resolve(mockedValue));
+      const instance = new Organization(publicKey, privateKey, orgId);
+      expect(await instance.getProjects()).toEqual(mockedValue);
+      expect(spyGetAll).toHaveBeenCalledWith({
+        url: `${instance.apiBaseUri}/groups`,
+      });
+    });
+  });
+
 });
