@@ -14,6 +14,12 @@ describe("Clusters", () => {
   const privateKey = "dummyPrivateKey";
   const projectId = "dummyProjectId";
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  beforeEach(() => {});
+
   describe("constructor", () => {
     it("inherits MongoDbAtlasBase", () => {
       const instance = new Clusters(publicKey, privateKey, projectId);
@@ -25,7 +31,7 @@ describe("Clusters", () => {
       const instance = new Clusters(publicKey, privateKey, projectId);
       expect(instance).toHaveProperty(
         "apiBaseUri",
-        `${base.apiBaseUri}/groups/${projectId}/clusters`
+        `${base.apiBaseUri as string}/groups/${projectId}/clusters`
       );
     });
   });

@@ -14,6 +14,12 @@ describe("Organization", () => {
   const privateKey = "dummyPrivateKey";
   const orgId = "dummyOrgId";
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  beforeEach(() => {});
+
   describe("constructor", () => {
     it("has publicKey", () => {
       expect(new Organization(publicKey, privateKey, orgId)).toHaveProperty(
@@ -46,7 +52,7 @@ describe("Organization", () => {
       const instance = new Organization(publicKey, privateKey, orgId);
       expect(instance).toHaveProperty(
         "apiBaseUri",
-        `${base.apiBaseUri}/orgs/${orgId}`
+        `${base.apiBaseUri as string}/orgs/${orgId}`
       );
     });
   });
@@ -75,7 +81,7 @@ describe("Organization", () => {
       const instance = new Organization(publicKey, privateKey, orgId);
       expect(await instance.getUsers()).toEqual(mockedValue);
       expect(spyGetAll).toHaveBeenCalledWith({
-        url: `${instance.apiBaseUri}/users`,
+        url: `${instance.apiBaseUri as string}/users`,
       });
     });
   });
@@ -98,7 +104,7 @@ describe("Organization", () => {
       const instance = new Organization(publicKey, privateKey, orgId);
       expect(await instance.getProjects()).toEqual(mockedValue);
       expect(spyGetAll).toHaveBeenCalledWith({
-        url: `${instance.apiBaseUri}/groups`,
+        url: `${instance.apiBaseUri as string}/groups`,
       });
     });
   });

@@ -43,7 +43,7 @@ describe("Cluster", () => {
       const base = new MongoDbAtlasBase(publicKey, privateKey);
       expect(instance).toHaveProperty(
         "apiBaseUri",
-        `${base.apiBaseUri}/groups/${projectId}/clusters/${clusterName}`
+        `${base.apiBaseUri as string}/groups/${projectId}/clusters/${clusterName}`
       );
     });
   });

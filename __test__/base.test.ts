@@ -24,10 +24,11 @@ jest.mock(
         this.user = user;
         this.password = password;
       }
-      public async fetch(url: string, options?: any) {
+
+      public async fetch(url: string, options?: any): Promise<any> {
         digestFetchCalledHistory.fetch.push({ url, options });
-        return Promise.resolve({
-          json: async () => Promise.resolve({}),
+        return await Promise.resolve({
+          json: async () => await Promise.resolve({}),
         });
       }
     }
@@ -65,9 +66,9 @@ describe("MongoDbAtlasBase", () => {
         .spyOn(MongoDbAtlasBase.prototype, "getClient")
         .mockReturnValue({
           fetch: async (url: string, options?: any) =>
-            Promise.resolve({
+            await Promise.resolve({
               json: async () =>
-                Promise.resolve({
+                await Promise.resolve({
                   url,
                   options,
                 }),

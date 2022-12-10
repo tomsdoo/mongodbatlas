@@ -37,6 +37,6 @@ describe("Organizations", () => {
   it("has apiBaseUri", () => {
     const base = new MongoDbAtlasBase(publicKey, privateKey);
     const instance = new Organizations(publicKey, privateKey);
-    expect(instance.apiBaseUri).toBe(`${base.apiBaseUri}/orgs`);
+    expect(instance.apiBaseUri).toBe(`${base.apiBaseUri as string}/orgs`);
   });
 });
