@@ -17,28 +17,25 @@ interface Options {
 }
 
 export class Projects extends MongoDbAtlasBase {
-  constructor(publicKey: string, privateKey: string){
+  constructor(publicKey: string, privateKey: string) {
     super(publicKey, privateKey);
     this.apiBaseUri = `${this.apiBaseUri}/groups`;
   }
-  public async getAll(){
+  public async getAll() {
     return await super.getAll({
       transform: ({ id, name, links, orgId }: Project) => ({
         id,
         name,
         href: links.find(({ rel }) => rel === "self")?.href,
         orgId,
-      })
+      }),
     });
   }
 
-  public async add(orgId: string, name: string){
-    return await this.post(
-      this.apiBaseUri,
-      {
-        name,
-        orgId,
-      },
-    );
+  public async add(orgId: string, name: string) {
+    return await this.post(this.apiBaseUri, {
+      name,
+      orgId,
+    });
   }
- }
+}

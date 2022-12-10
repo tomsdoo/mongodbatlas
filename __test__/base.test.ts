@@ -1,4 +1,11 @@
-import { afterEach, beforeEach, describe, it, expect, jest } from "@jest/globals";
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  it,
+  expect,
+  jest,
+} from "@jest/globals";
 import { MongoDbAtlasBase } from "@/base";
 
 const digestFetchCalledHistory = {
@@ -6,22 +13,24 @@ const digestFetchCalledHistory = {
   fetch: [],
 };
 
-jest.mock("digest-fetch", () =>
-  class DigestFetch {
-    public user: string;
-    public password: string;
-    constructor(user: string, password: string){
-      digestFetchCalledHistory.constructor.push({ user, password });
-      this.user = user;
-      this.password = password;
+jest.mock(
+  "digest-fetch",
+  () =>
+    class DigestFetch {
+      public user: string;
+      public password: string;
+      constructor(user: string, password: string) {
+        digestFetchCalledHistory.constructor.push({ user, password });
+        this.user = user;
+        this.password = password;
+      }
+      public async fetch(url: string, options?: any) {
+        digestFetchCalledHistory.fetch.push({ url, options });
+        return Promise.resolve({
+          json: async () => Promise.resolve({}),
+        });
+      }
     }
-    public async fetch(url: string, options?: any){
-      digestFetchCalledHistory.fetch.push({url, options});
-      return Promise.resolve({
-        json: async () => Promise.resolve({}),
-      });
-    }
-  }
 );
 
 describe("MongoDbAtlasBase", () => {
@@ -55,12 +64,14 @@ describe("MongoDbAtlasBase", () => {
       spyGetClient = jest
         .spyOn(MongoDbAtlasBase.prototype, "getClient")
         .mockReturnValue({
-          fetch: async (url: string, options?: any) => Promise.resolve({
-            json: async () => Promise.resolve({
-              url,
-              options,
+          fetch: async (url: string, options?: any) =>
+            Promise.resolve({
+              json: async () =>
+                Promise.resolve({
+                  url,
+                  options,
+                }),
             }),
-          }),
         });
     });
 
@@ -135,7 +146,6 @@ describe("MongoDbAtlasBase", () => {
       });
       expect(spyGetClient).toHaveBeenCalled();
     });
-
   });
 
   describe("request", () => {

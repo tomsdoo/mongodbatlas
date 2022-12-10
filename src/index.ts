@@ -11,22 +11,22 @@ export class MongoDbAtlas {
   protected privateKey: string;
   protected _projects: Projects;
   protected _organizations: Organizations;
-  constructor(publicKey: string, privateKey: string){
+  constructor(publicKey: string, privateKey: string) {
     this.publicKey = publicKey;
     this.privateKey = privateKey;
     this._projects = new Projects(this.publicKey, this.privateKey);
     this._organizations = new Organizations(this.publicKey, this.privateKey);
   }
-  public get organizations(){
+  public get organizations() {
     return this._organizations;
   }
-  public get projects(){
+  public get projects() {
     return this._projects;
   }
-  public organization(orgId: string){
+  public organization(orgId: string) {
     return new Organization(this.publicKey, this.privateKey, orgId);
   }
-  public project(projectId: string){
+  public project(projectId: string) {
     return new Project(this.publicKey, this.privateKey, projectId);
   }
 }

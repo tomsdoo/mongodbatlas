@@ -1,4 +1,11 @@
-import { afterEach, beforeEach, describe, it, expect, jest } from "@jest/globals";
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  it,
+  expect,
+  jest,
+} from "@jest/globals";
 import { Projects } from "@/projects";
 import { Project } from "@/project";
 import { MongoDbAtlas } from "@/index";
@@ -8,11 +15,17 @@ describe("MongoDbAtlas", () => {
   const privateKey = "dummyPrivateKey";
 
   it("has pubicKey", () => {
-    expect(new MongoDbAtlas(publicKey, privateKey)).toHaveProperty("publicKey", publicKey);
+    expect(new MongoDbAtlas(publicKey, privateKey)).toHaveProperty(
+      "publicKey",
+      publicKey
+    );
   });
 
   it("has privateKey", () => {
-    expect(new MongoDbAtlas(publicKey, privateKey)).toHaveProperty("privateKey", privateKey);
+    expect(new MongoDbAtlas(publicKey, privateKey)).toHaveProperty(
+      "privateKey",
+      privateKey
+    );
   });
 
   it("has projects", () => {

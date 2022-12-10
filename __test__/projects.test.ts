@@ -1,4 +1,11 @@
-import { afterEach, beforeEach, describe, it, expect, jest } from "@jest/globals";
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  it,
+  expect,
+  jest,
+} from "@jest/globals";
 import { MongoDbAtlasBase } from "@/base";
 import { Projects } from "@/projects";
 
@@ -28,17 +35,19 @@ describe("Projects", () => {
   });
 
   it("getAll()", async () => {
-    const records = Array(199).fill(0).map((_,i) => ({
-      id: `id${i}`,
-      name: `name${i}`,
-      links: [
-        {
-          rel: `self`,
-          href: `href${i}`,
-        },
-      ],
-      orgId: `orgId${i}`,
-    }));
+    const records = Array(199)
+      .fill(0)
+      .map((_, i) => ({
+        id: `id${i}`,
+        name: `name${i}`,
+        links: [
+          {
+            rel: `self`,
+            href: `href${i}`,
+          },
+        ],
+        orgId: `orgId${i}`,
+      }));
     const spyGet = jest
       .spyOn(Projects.prototype, "get")
       .mockImplementation((url: string) => {
@@ -71,12 +80,9 @@ describe("Projects", () => {
       .mockReturnValue(Promise.resolve(mockedValue));
     const instance = new Projects(publicKey, privateKey);
     expect(await instance.add(orgId, name)).toEqual(mockedValue);
-    expect(spyPost).toHaveBeenCalledWith(
-      instance.apiBaseUri,
-      {
-        orgId,
-        name,
-      },
-    );
+    expect(spyPost).toHaveBeenCalledWith(instance.apiBaseUri, {
+      orgId,
+      name,
+    });
   });
 });
