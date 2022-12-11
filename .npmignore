@@ -1,7 +1,11 @@
 __test__/
+.github/
+.husky/
+docs/
 node_modules/
 src/
 .env
+.eslintrc.js
 .gitignore
 .npmignore
 jest.base.config.js
