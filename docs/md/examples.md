@@ -5,3 +5,4 @@
 - [adding a project](./examples/adding-a-project.md)
 - [getting a project](./examples/getting-a-project.md)
 - [deleting a project](./examples/deleting-a-project.md)
+- [getting free clusters](./examples/getting-free-clusters.md)
