@@ -12,3 +12,6 @@
 - [getting access list](./examples/getting-access-list.md)
 - [adding IP into access list](./examples/adding-ip.md)
 - [deleting IP from access list](./examples/deleting-ip.md)
+
+## organizations
+- [getting organizations](./examples/getting-organizations.md)
