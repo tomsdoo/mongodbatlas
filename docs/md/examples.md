@@ -10,3 +10,5 @@
 - [adding database admin user](./examples/adding-database-admin-user.md)
 - [deleting database admin user](./examples/deleting-database-admin-user.md)
 - [getting access list](./examples/getting-access-list.md)
+- [adding IP into access list](./examples/adding-ip.md)
+- [deleting IP from access list](./examples/deleting-ip.md)
