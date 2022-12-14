@@ -17,3 +17,4 @@
 - [getting organizations](./examples/getting-organizations.md)
 - [getting an organization](./examples/getting-an-organization.md)
 - [getting organization users](./examples/getting-organization-users.md)
+- [getting organization projects](./examples/getting-organization-projects.md)
