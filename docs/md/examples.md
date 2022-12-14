@@ -5,6 +5,7 @@
 - [adding a project](./examples/adding-a-project.md)
 - [getting a project](./examples/getting-a-project.md)
 - [deleting a project](./examples/deleting-a-project.md)
+- [getting clusters](./examples/getting-project-clusters.md)
 - [getting free clusters](./examples/getting-free-clusters.md)
 - [getting database users](./examples/getting-database-users.md)
 - [adding database admin user](./examples/adding-database-admin-user.md)
