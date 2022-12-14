@@ -4,7 +4,6 @@ __test__/
 docs/
 node_modules/
 src/
-.env
 .eslintrc.js
 .gitignore
 .npmignore
