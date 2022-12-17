@@ -1,6 +1,6 @@
 {
   "name": "@tomsd/mongodbatlas",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "It's a library for MongoDB Atlas.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
