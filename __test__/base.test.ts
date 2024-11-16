@@ -8,6 +8,7 @@ import {
   type MockInstance,
 } from "vitest";
 import { MongoDbAtlasBase } from "@/base";
+// @ts-expect-error typeof digets-fetch
 import type DigestFetch from "digest-fetch";
 
 const { spyConstructor } = vi.hoisted(() => ({
