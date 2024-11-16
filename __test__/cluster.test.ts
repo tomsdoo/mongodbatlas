@@ -33,10 +33,15 @@ describe("Cluster", () => {
     });
 
     it("has apiBaseUri", () => {
-      const base = new MongoDbAtlasBase(publicKey, privateKey);
+      class TestMongoDbAtlasBase extends MongoDbAtlasBase {
+        public get apiBaseUriVisible(): string {
+          return this.apiBaseUri;
+        }
+      }
+      const base = new TestMongoDbAtlasBase(publicKey, privateKey);
       expect(instance).toHaveProperty(
         "apiBaseUri",
-        `${base.apiBaseUri}/groups/${projectId}/clusters/${clusterName}`,
+        `${base.apiBaseUriVisible}/groups/${projectId}/clusters/${clusterName}`,
       );
     });
   });

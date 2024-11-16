@@ -7,6 +7,18 @@ describe("Organization", () => {
   const privateKey = "dummyPrivateKey";
   const orgId = "dummyOrgId";
 
+  class TestMongoDbAtlasBase extends MongoDbAtlasBase {
+    public get apiBaseUriVisible(): string {
+      return this.apiBaseUri;
+    }
+  }
+
+  class TestOrganization extends Organization {
+    public get apiBaseUriVisible(): string {
+      return this.apiBaseUri;
+    }
+  }
+
   afterEach(() => {
     vi.clearAllMocks();
   });
@@ -41,11 +53,11 @@ describe("Organization", () => {
     });
 
     it("has apiBaseUri", () => {
-      const base = new MongoDbAtlasBase(publicKey, privateKey);
+      const base = new TestMongoDbAtlasBase(publicKey, privateKey);
       const instance = new Organization(publicKey, privateKey, orgId);
       expect(instance).toHaveProperty(
         "apiBaseUri",
-        `${base.apiBaseUri}/orgs/${orgId}`,
+        `${base.apiBaseUriVisible}/orgs/${orgId}`,
       );
     });
   });
@@ -71,10 +83,10 @@ describe("Organization", () => {
       const spyGetAll = vi
         .spyOn(Organization.prototype, "getAll")
         .mockReturnValue(Promise.resolve(mockedValue));
-      const instance = new Organization(publicKey, privateKey, orgId);
+      const instance = new TestOrganization(publicKey, privateKey, orgId);
       expect(await instance.getUsers()).toEqual(mockedValue);
       expect(spyGetAll).toHaveBeenCalledWith({
-        url: `${instance.apiBaseUri}/users`,
+        url: `${instance.apiBaseUriVisible}/users`,
       });
     });
   });
@@ -94,10 +106,10 @@ describe("Organization", () => {
       const spyGetAll = vi
         .spyOn(Organization.prototype, "getAll")
         .mockReturnValue(Promise.resolve(mockedValue));
-      const instance = new Organization(publicKey, privateKey, orgId);
+      const instance = new TestOrganization(publicKey, privateKey, orgId);
       expect(await instance.getProjects()).toEqual(mockedValue);
       expect(spyGetAll).toHaveBeenCalledWith({
-        url: `${instance.apiBaseUri}/groups`,
+        url: `${instance.apiBaseUriVisible}/groups`,
       });
     });
   });

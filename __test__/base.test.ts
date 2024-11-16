@@ -8,24 +8,24 @@ import {
   type MockInstance,
 } from "vitest";
 import { MongoDbAtlasBase } from "@/base";
+// @ts-expect-error typeof digets-fetch
+import type DigestFetch from "digest-fetch";
 
-const digestFetchCalledHistory = {
-  constructor: [],
-  fetch: [],
-};
+const { spyConstructor } = vi.hoisted(() => ({
+  spyConstructor: vi.fn(),
+}));
 
 vi.mock("digest-fetch", () => ({
   default: class DigestFetch {
     public user: string;
     public password: string;
     constructor(user: string, password: string) {
-      digestFetchCalledHistory.constructor.push({ user, password });
+      spyConstructor(user, password);
       this.user = user;
       this.password = password;
     }
 
     public async fetch(url: string, options?: any): Promise<any> {
-      digestFetchCalledHistory.fetch.push({ url, options });
       return await Promise.resolve({
         json: async () => await Promise.resolve({}),
       });
@@ -37,6 +37,20 @@ describe("MongoDbAtlasBase", () => {
   const publicKey = "dummyPublicKey";
   const privateKey = "dummyPrivateKey";
 
+  class TestMongoDbAtlasBase extends MongoDbAtlasBase {
+    public getClient(): DigestFetch {
+      return super.getClient();
+    }
+
+    public async sendCore(
+      method: string,
+      url: string,
+      body?: any,
+    ): Promise<any> {
+      return await super.sendCore(method, url, body);
+    }
+  }
+
   afterEach(() => {
     vi.clearAllMocks();
   });
@@ -44,25 +58,25 @@ describe("MongoDbAtlasBase", () => {
   beforeEach(() => {});
 
   it("constructor", () => {
-    const instance = new MongoDbAtlasBase(publicKey, privateKey);
+    const instance = new TestMongoDbAtlasBase(publicKey, privateKey);
     expect(instance).toHaveProperty("publicKey", publicKey);
     expect(instance).toHaveProperty("privateKey", privateKey);
   });
   it("getClient()", () => {
-    const instance = new MongoDbAtlasBase(publicKey, privateKey);
+    const instance = new TestMongoDbAtlasBase(publicKey, privateKey);
     const client = instance.getClient();
     expect(client).toHaveProperty("user", publicKey);
     expect(client).toHaveProperty("password", privateKey);
-    expect(digestFetchCalledHistory.constructor.slice(-1)[0]).toEqual({
-      user: "dummyPublicKey",
-      password: "dummyPrivateKey",
-    });
+    expect(spyConstructor).toHaveBeenCalledWith(
+      "dummyPublicKey",
+      "dummyPrivateKey",
+    );
   });
   describe("sendCore()", () => {
     let spyGetClient: MockInstance;
     beforeEach(() => {
       spyGetClient = vi
-        .spyOn(MongoDbAtlasBase.prototype, "getClient")
+        .spyOn(TestMongoDbAtlasBase.prototype, "getClient")
         .mockReturnValue({
           fetch: async (url: string, options?: any) =>
             await Promise.resolve({
@@ -77,8 +91,8 @@ describe("MongoDbAtlasBase", () => {
 
     it("GET", async () => {
       const dummyUrl = "dummyUrl";
-      const instance = new MongoDbAtlasBase(publicKey, privateKey);
-      expect(await instance.get(dummyUrl)).toEqual({
+      const instance = new TestMongoDbAtlasBase(publicKey, privateKey);
+      await expect(instance.get(dummyUrl)).resolves.toEqual({
         url: "dummyUrl",
         options: {
           method: "GET",
@@ -96,8 +110,8 @@ describe("MongoDbAtlasBase", () => {
       const body = {
         test: true,
       };
-      const instance = new MongoDbAtlasBase(publicKey, privateKey);
-      expect(await instance.post(dummyUrl, body)).toEqual({
+      const instance = new TestMongoDbAtlasBase(publicKey, privateKey);
+      await expect(instance.post(dummyUrl, body)).resolves.toEqual({
         url: "dummyUrl",
         options: {
           method: "POST",
@@ -116,8 +130,8 @@ describe("MongoDbAtlasBase", () => {
       const body = {
         test: true,
       };
-      const instance = new MongoDbAtlasBase(publicKey, privateKey);
-      expect(await instance.put(dummyUrl, body)).toEqual({
+      const instance = new TestMongoDbAtlasBase(publicKey, privateKey);
+      await expect(instance.put(dummyUrl, body)).resolves.toEqual({
         url: "dummyUrl",
         options: {
           method: "PUT",
@@ -133,8 +147,8 @@ describe("MongoDbAtlasBase", () => {
 
     it("DELETE", async () => {
       const dummyUrl = "dummyUrl";
-      const instance = new MongoDbAtlasBase(publicKey, privateKey);
-      expect(await instance.delete(dummyUrl)).toEqual({
+      const instance = new TestMongoDbAtlasBase(publicKey, privateKey);
+      await expect(instance.delete(dummyUrl)).resolves.toEqual({
         url: "dummyUrl",
         options: {
           method: "DELETE",
@@ -154,11 +168,11 @@ describe("MongoDbAtlasBase", () => {
         test: true,
       };
       const spySendCore = vi
-        .spyOn(MongoDbAtlasBase.prototype, "sendCore")
-        .mockReturnValue(Promise.resolve(mockedValue));
+        .spyOn(TestMongoDbAtlasBase.prototype, "sendCore")
+        .mockResolvedValue(mockedValue);
       const dummyUrl = "dummyUrl";
-      const instance = new MongoDbAtlasBase(publicKey, privateKey);
-      expect(await instance.get(dummyUrl)).toEqual(mockedValue);
+      const instance = new TestMongoDbAtlasBase(publicKey, privateKey);
+      await expect(instance.get(dummyUrl)).resolves.toEqual(mockedValue);
       expect(spySendCore).toHaveBeenCalledWith("GET", dummyUrl);
     });
 
@@ -170,11 +184,11 @@ describe("MongoDbAtlasBase", () => {
         test: true,
       };
       const spySendCore = vi
-        .spyOn(MongoDbAtlasBase.prototype, "sendCore")
-        .mockReturnValue(Promise.resolve(mockedValue));
+        .spyOn(TestMongoDbAtlasBase.prototype, "sendCore")
+        .mockResolvedValue(mockedValue);
       const dummyUrl = "dummyUrl";
-      const instance = new MongoDbAtlasBase(publicKey, privateKey);
-      expect(await instance.post(dummyUrl, body)).toEqual(mockedValue);
+      const instance = new TestMongoDbAtlasBase(publicKey, privateKey);
+      await expect(instance.post(dummyUrl, body)).resolves.toEqual(mockedValue);
       expect(spySendCore).toHaveBeenCalledWith("POST", dummyUrl, body);
     });
 
@@ -186,11 +200,11 @@ describe("MongoDbAtlasBase", () => {
         test: true,
       };
       const spySendCore = vi
-        .spyOn(MongoDbAtlasBase.prototype, "sendCore")
-        .mockReturnValue(Promise.resolve(mockedValue));
+        .spyOn(TestMongoDbAtlasBase.prototype, "sendCore")
+        .mockResolvedValue(mockedValue);
       const dummyUrl = "dummyUrl";
-      const instance = new MongoDbAtlasBase(publicKey, privateKey);
-      expect(await instance.put(dummyUrl, body)).toEqual(mockedValue);
+      const instance = new TestMongoDbAtlasBase(publicKey, privateKey);
+      await expect(instance.put(dummyUrl, body)).resolves.toEqual(mockedValue);
       expect(spySendCore).toHaveBeenCalledWith("PUT", dummyUrl, body);
     });
 
@@ -199,11 +213,11 @@ describe("MongoDbAtlasBase", () => {
         test: true,
       };
       const spySendCore = vi
-        .spyOn(MongoDbAtlasBase.prototype, "sendCore")
-        .mockReturnValue(Promise.resolve(mockedValue));
+        .spyOn(TestMongoDbAtlasBase.prototype, "sendCore")
+        .mockResolvedValue(mockedValue);
       const dummyUrl = "dummyUrl";
-      const instance = new MongoDbAtlasBase(publicKey, privateKey);
-      expect(await instance.delete(dummyUrl)).toEqual(mockedValue);
+      const instance = new TestMongoDbAtlasBase(publicKey, privateKey);
+      await expect(instance.delete(dummyUrl)).resolves.toEqual(mockedValue);
       expect(spySendCore).toHaveBeenCalledWith("DELETE", dummyUrl);
     });
   });

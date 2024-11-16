@@ -31,7 +31,6 @@ describe("MongoDbAtlas", () => {
     const instance = new MongoDbAtlas(publicKey, privateKey);
     expect(instance).toHaveProperty("_projects");
     expect(instance).toHaveProperty("projects");
-    expect(instance._projects instanceof Projects).toBe(true);
     expect(instance.projects instanceof Projects).toBe(true);
   });
 

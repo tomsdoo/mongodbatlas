@@ -6,6 +6,12 @@ describe("Projects", () => {
   const publicKey = "dummyPublicKey";
   const privateKey = "dummyPrivateKey";
 
+  class TestProjects extends Projects {
+    public get apiBaseUriVisible(): string {
+      return this.apiBaseUri;
+    }
+  }
+
   afterEach(() => {
     vi.clearAllMocks();
   });
@@ -43,8 +49,8 @@ describe("Projects", () => {
       }));
     const spyGet = vi
       .spyOn(Projects.prototype, "get")
-      .mockImplementation((url: string) => {
-        const searchParams = new URL(url).searchParams;
+      .mockImplementation(async (url?: string) => {
+        const searchParams = new URL(url ?? "").searchParams;
         const pageNum = Number(searchParams.get("pageNum"));
         const itemsPerPage = Number(searchParams.get("itemsPerPage"));
         const skip = (pageNum - 1) * itemsPerPage;
@@ -71,9 +77,9 @@ describe("Projects", () => {
     const spyPost = vi
       .spyOn(Projects.prototype, "post")
       .mockReturnValue(Promise.resolve(mockedValue));
-    const instance = new Projects(publicKey, privateKey);
+    const instance = new TestProjects(publicKey, privateKey);
     expect(await instance.add(orgId, name)).toEqual(mockedValue);
-    expect(spyPost).toHaveBeenCalledWith(instance.apiBaseUri, {
+    expect(spyPost).toHaveBeenCalledWith(instance.apiBaseUriVisible, {
       orgId,
       name,
     });
