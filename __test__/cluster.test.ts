@@ -1,11 +1,4 @@
-import {
-  afterEach,
-  beforeEach,
-  describe,
-  it,
-  expect,
-  jest,
-} from "@jest/globals";
+import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
 import { MongoDbAtlasBase } from "@/base";
 import { Cluster } from "@/cluster";
 
@@ -16,7 +9,7 @@ describe("Cluster", () => {
   const clusterName = "dummyClusterName";
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   beforeEach(() => {});
@@ -43,9 +36,7 @@ describe("Cluster", () => {
       const base = new MongoDbAtlasBase(publicKey, privateKey);
       expect(instance).toHaveProperty(
         "apiBaseUri",
-        `${
-          base.apiBaseUri as string
-        }/groups/${projectId}/clusters/${clusterName}`
+        `${base.apiBaseUri}/groups/${projectId}/clusters/${clusterName}`
       );
     });
   });

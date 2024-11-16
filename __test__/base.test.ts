@@ -4,8 +4,9 @@ import {
   describe,
   it,
   expect,
-  jest,
-} from "@jest/globals";
+  vi,
+  type MockInstance,
+} from "vitest";
 import { MongoDbAtlasBase } from "@/base";
 
 const digestFetchCalledHistory = {
@@ -13,33 +14,31 @@ const digestFetchCalledHistory = {
   fetch: [],
 };
 
-jest.mock(
-  "digest-fetch",
-  () =>
-    class DigestFetch {
-      public user: string;
-      public password: string;
-      constructor(user: string, password: string) {
-        digestFetchCalledHistory.constructor.push({ user, password });
-        this.user = user;
-        this.password = password;
-      }
-
-      public async fetch(url: string, options?: any): Promise<any> {
-        digestFetchCalledHistory.fetch.push({ url, options });
-        return await Promise.resolve({
-          json: async () => await Promise.resolve({}),
-        });
-      }
+vi.mock("digest-fetch", () => ({
+  default: class DigestFetch {
+    public user: string;
+    public password: string;
+    constructor(user: string, password: string) {
+      digestFetchCalledHistory.constructor.push({ user, password });
+      this.user = user;
+      this.password = password;
     }
-);
+
+    public async fetch(url: string, options?: any): Promise<any> {
+      digestFetchCalledHistory.fetch.push({ url, options });
+      return await Promise.resolve({
+        json: async () => await Promise.resolve({}),
+      });
+    }
+  },
+}));
 
 describe("MongoDbAtlasBase", () => {
   const publicKey = "dummyPublicKey";
   const privateKey = "dummyPrivateKey";
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   beforeEach(() => {});
@@ -60,9 +59,9 @@ describe("MongoDbAtlasBase", () => {
     });
   });
   describe("sendCore()", () => {
-    let spyGetClient: jest.Spied<any>;
+    let spyGetClient: MockInstance;
     beforeEach(() => {
-      spyGetClient = jest
+      spyGetClient = vi
         .spyOn(MongoDbAtlasBase.prototype, "getClient")
         .mockReturnValue({
           fetch: async (url: string, options?: any) =>
@@ -154,7 +153,7 @@ describe("MongoDbAtlasBase", () => {
       const mockedValue = {
         test: true,
       };
-      const spySendCore = jest
+      const spySendCore = vi
         .spyOn(MongoDbAtlasBase.prototype, "sendCore")
         .mockReturnValue(Promise.resolve(mockedValue));
       const dummyUrl = "dummyUrl";
@@ -170,7 +169,7 @@ describe("MongoDbAtlasBase", () => {
       const mockedValue = {
         test: true,
       };
-      const spySendCore = jest
+      const spySendCore = vi
         .spyOn(MongoDbAtlasBase.prototype, "sendCore")
         .mockReturnValue(Promise.resolve(mockedValue));
       const dummyUrl = "dummyUrl";
@@ -186,7 +185,7 @@ describe("MongoDbAtlasBase", () => {
       const mockedValue = {
         test: true,
       };
-      const spySendCore = jest
+      const spySendCore = vi
         .spyOn(MongoDbAtlasBase.prototype, "sendCore")
         .mockReturnValue(Promise.resolve(mockedValue));
       const dummyUrl = "dummyUrl";
@@ -199,7 +198,7 @@ describe("MongoDbAtlasBase", () => {
       const mockedValue = {
         test: true,
       };
-      const spySendCore = jest
+      const spySendCore = vi
         .spyOn(MongoDbAtlasBase.prototype, "sendCore")
         .mockReturnValue(Promise.resolve(mockedValue));
       const dummyUrl = "dummyUrl";

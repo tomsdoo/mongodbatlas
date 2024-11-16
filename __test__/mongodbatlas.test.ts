@@ -1,11 +1,4 @@
-import {
-  afterEach,
-  beforeEach,
-  describe,
-  it,
-  expect,
-  jest,
-} from "@jest/globals";
+import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
 import { Projects } from "@/projects";
 import { Project } from "@/project";
 import { MongoDbAtlas } from "@/index";
@@ -15,7 +8,7 @@ describe("MongoDbAtlas", () => {
   const privateKey = "dummyPrivateKey";
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   beforeEach(() => {});

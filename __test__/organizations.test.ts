@@ -1,11 +1,4 @@
-import {
-  afterEach,
-  beforeEach,
-  describe,
-  it,
-  expect,
-  jest,
-} from "@jest/globals";
+import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
 import { MongoDbAtlasBase } from "@/base";
 import { Organizations } from "@/organizations";
 
@@ -14,7 +7,7 @@ describe("Organizations", () => {
   const privateKey = "dummyPrivateKey";
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   beforeEach(() => {});
@@ -37,6 +30,6 @@ describe("Organizations", () => {
   it("has apiBaseUri", () => {
     const base = new MongoDbAtlasBase(publicKey, privateKey);
     const instance = new Organizations(publicKey, privateKey);
-    expect(instance.apiBaseUri).toBe(`${base.apiBaseUri as string}/orgs`);
+    expect(instance.apiBaseUri).toBe(`${base.apiBaseUri}/orgs`);
   });
 });

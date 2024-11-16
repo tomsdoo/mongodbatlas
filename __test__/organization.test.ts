@@ -1,11 +1,4 @@
-import {
-  afterEach,
-  beforeEach,
-  describe,
-  it,
-  expect,
-  jest,
-} from "@jest/globals";
+import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
 import { MongoDbAtlasBase } from "@/base";
 import { Organization } from "@/organization";
 
@@ -15,7 +8,7 @@ describe("Organization", () => {
   const orgId = "dummyOrgId";
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   beforeEach(() => {});
@@ -52,7 +45,7 @@ describe("Organization", () => {
       const instance = new Organization(publicKey, privateKey, orgId);
       expect(instance).toHaveProperty(
         "apiBaseUri",
-        `${base.apiBaseUri as string}/orgs/${orgId}`
+        `${base.apiBaseUri}/orgs/${orgId}`
       );
     });
   });
@@ -75,13 +68,13 @@ describe("Organization", () => {
           username: "someone@dom.ain",
         },
       ];
-      const spyGetAll = jest
+      const spyGetAll = vi
         .spyOn(Organization.prototype, "getAll")
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Organization(publicKey, privateKey, orgId);
       expect(await instance.getUsers()).toEqual(mockedValue);
       expect(spyGetAll).toHaveBeenCalledWith({
-        url: `${instance.apiBaseUri as string}/users`,
+        url: `${instance.apiBaseUri}/users`,
       });
     });
   });
@@ -98,13 +91,13 @@ describe("Organization", () => {
           orgId: "dummyOrgId",
         },
       ];
-      const spyGetAll = jest
+      const spyGetAll = vi
         .spyOn(Organization.prototype, "getAll")
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Organization(publicKey, privateKey, orgId);
       expect(await instance.getProjects()).toEqual(mockedValue);
       expect(spyGetAll).toHaveBeenCalledWith({
-        url: `${instance.apiBaseUri as string}/groups`,
+        url: `${instance.apiBaseUri}/groups`,
       });
     });
   });
