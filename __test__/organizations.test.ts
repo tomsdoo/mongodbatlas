@@ -28,8 +28,19 @@ describe("Organizations", () => {
   });
 
   it("has apiBaseUri", () => {
-    const base = new MongoDbAtlasBase(publicKey, privateKey);
-    const instance = new Organizations(publicKey, privateKey);
-    expect(instance.apiBaseUri).toBe(`${base.apiBaseUri}/orgs`);
+    class TestMongoDbAtlasBase extends MongoDbAtlasBase {
+      public get apiBaseUriVisible(): string {
+        return this.apiBaseUri;
+      }
+    }
+    class TestOrganizations extends Organizations {
+      public get apiBaseUriVisible(): string {
+        return this.apiBaseUri;
+      }
+    }
+
+    const base = new TestMongoDbAtlasBase(publicKey, privateKey);
+    const instance = new TestOrganizations(publicKey, privateKey);
+    expect(instance.apiBaseUriVisible).toBe(`${base.apiBaseUriVisible}/orgs`);
   });
 });
