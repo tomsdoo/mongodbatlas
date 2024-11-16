@@ -59,7 +59,6 @@
     "vitest": "2.1.5"
   },
   "dependencies": {
-    "digest-fetch": "2.0.1",
-    "node-fetch": "2.6.7"
+    "digest-fetch": "2.0.1"
   }
 }
