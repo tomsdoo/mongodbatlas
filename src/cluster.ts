@@ -7,7 +7,7 @@ export class Cluster extends MongoDbAtlasBase {
     publicKey: string,
     privateKey: string,
     projectId: string,
-    clusterName: string
+    clusterName: string,
   ) {
     super(publicKey, privateKey);
     this.projectId = projectId;

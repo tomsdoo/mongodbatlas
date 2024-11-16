@@ -17,21 +17,21 @@ describe("Organization", () => {
     it("has publicKey", () => {
       expect(new Organization(publicKey, privateKey, orgId)).toHaveProperty(
         "publicKey",
-        publicKey
+        publicKey,
       );
     });
 
     it("has privateKey", () => {
       expect(new Organization(publicKey, privateKey, orgId)).toHaveProperty(
         "privateKey",
-        privateKey
+        privateKey,
       );
     });
 
     it("has orgId", () => {
       expect(new Organization(publicKey, privateKey, orgId)).toHaveProperty(
         "orgId",
-        orgId
+        orgId,
       );
     });
 
@@ -45,7 +45,7 @@ describe("Organization", () => {
       const instance = new Organization(publicKey, privateKey, orgId);
       expect(instance).toHaveProperty(
         "apiBaseUri",
-        `${base.apiBaseUri}/orgs/${orgId}`
+        `${base.apiBaseUri}/orgs/${orgId}`,
       );
     });
   });

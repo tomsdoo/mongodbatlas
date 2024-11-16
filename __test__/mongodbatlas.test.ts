@@ -16,14 +16,14 @@ describe("MongoDbAtlas", () => {
   it("has pubicKey", () => {
     expect(new MongoDbAtlas(publicKey, privateKey)).toHaveProperty(
       "publicKey",
-      publicKey
+      publicKey,
     );
   });
 
   it("has privateKey", () => {
     expect(new MongoDbAtlas(publicKey, privateKey)).toHaveProperty(
       "privateKey",
-      privateKey
+      privateKey,
     );
   });
 

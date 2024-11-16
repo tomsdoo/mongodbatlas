@@ -1,10 +1,10 @@
-// @ts-expect-error
+// @ts-expect-error synthetic default imports
 import DigestFetch from "digest-fetch";
 
 interface GetAllOptions {
   url?: string;
   itemsPerPage?: number;
-  transform?: Function;
+  transform?: (v: any) => any;
 }
 
 export class MongoDbAtlasBase {
@@ -24,7 +24,7 @@ export class MongoDbAtlasBase {
   protected async sendCore(
     method: string,
     url: string,
-    body?: any
+    body?: any,
   ): Promise<any> {
     // eslint-disable-next-line @typescript-eslint/return-await
     return await this.getClient()
