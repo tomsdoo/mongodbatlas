@@ -9,6 +9,18 @@ describe("Project", () => {
   const privateKey = "dummyPrivateKey";
   const projectId = "dummyProjectId";
 
+  class TestMongoDbAtlasBase extends MongoDbAtlasBase {
+    public get apiBaseUriVisible(): string {
+      return this.apiBaseUri;
+    }
+  }
+
+  class TestProject extends Project {
+    public get apiBaseUriVisible(): string {
+      return this.apiBaseUri;
+    }
+  }
+
   afterEach(() => {
     vi.clearAllMocks();
   });
@@ -45,11 +57,11 @@ describe("Project", () => {
     });
 
     it("has apiBaseUri", () => {
-      const mongoDbAtlasBase = new MongoDbAtlasBase(publicKey, privateKey);
+      const mongoDbAtlasBase = new TestMongoDbAtlasBase(publicKey, privateKey);
       const instance = new Project(publicKey, privateKey, projectId);
       expect(instance).toHaveProperty(
         "apiBaseUri",
-        `${mongoDbAtlasBase.apiBaseUri}/groups/${projectId}`,
+        `${mongoDbAtlasBase.apiBaseUriVisible}/groups/${projectId}`,
       );
     });
 
@@ -79,9 +91,9 @@ describe("Project", () => {
     const spyBaseGet = vi
       .spyOn(MongoDbAtlasBase.prototype, "get")
       .mockReturnValue(Promise.resolve(mockedProject));
-    const instance = new Project(publicKey, privateKey, projectId);
+    const instance = new TestProject(publicKey, privateKey, projectId);
     expect(await instance.get()).toEqual(mockedProject);
-    expect(spyBaseGet).toHaveBeenCalledWith(instance.apiBaseUri);
+    expect(spyBaseGet).toHaveBeenCalledWith(instance.apiBaseUriVisible);
   });
 
   it("getFreeClusters()", async () => {
@@ -109,7 +121,7 @@ describe("Project", () => {
     const spyBaseGet = vi
       .spyOn(MongoDbAtlasBase.prototype, "get")
       .mockReturnValue(Promise.resolve(mockedValue));
-    const instance = new Project(publicKey, privateKey, projectId);
+    const instance = new TestProject(publicKey, privateKey, projectId);
     expect(await instance.getFreeClusters()).toEqual([
       {
         id: "dummyClusterId",
@@ -120,18 +132,20 @@ describe("Project", () => {
         },
       },
     ]);
-    expect(spyBaseGet).toHaveBeenCalledWith(`${instance.apiBaseUri}/clusters`);
+    expect(spyBaseGet).toHaveBeenCalledWith(
+      `${instance.apiBaseUriVisible}/clusters`,
+    );
   });
 
   it("getUsers()", async () => {
-    const mockedValue = [];
+    const mockedValue: any[] = [];
     const spyGetAll = vi
       .spyOn(Project.prototype, "getAll")
       .mockReturnValue(Promise.resolve(mockedValue));
-    const instance = new Project(publicKey, privateKey, projectId);
+    const instance = new TestProject(publicKey, privateKey, projectId);
     expect(await instance.getUsers()).toEqual(mockedValue);
     expect(spyGetAll).toHaveBeenCalledWith({
-      url: `${instance.apiBaseUri}/databaseUsers`,
+      url: `${instance.apiBaseUriVisible}/databaseUsers`,
     });
   });
 
@@ -150,12 +164,12 @@ describe("Project", () => {
       const spyPost = vi
         .spyOn(Project.prototype, "post")
         .mockReturnValue(Promise.resolve(mockedValue));
-      const instance = new Project(publicKey, privateKey, projectId);
+      const instance = new TestProject(publicKey, privateKey, projectId);
       expect(await instance.addAdminUser(username, password)).toEqual(
         mockedValue,
       );
       expect(spyPost).toHaveBeenCalledWith(
-        `${instance.apiBaseUri}/databaseUsers`,
+        `${instance.apiBaseUriVisible}/databaseUsers`,
         {
           databaseName: "admin",
           groupId: projectId,
@@ -173,12 +187,12 @@ describe("Project", () => {
       const spyPost = vi
         .spyOn(Project.prototype, "post")
         .mockReturnValue(Promise.resolve(mockedValue));
-      const instance = new Project(publicKey, privateKey, projectId);
+      const instance = new TestProject(publicKey, privateKey, projectId);
       expect(await instance.addAdminUser(username, password)).toEqual(
         mockedValue,
       );
       expect(spyPost).toHaveBeenCalledWith(
-        `${instance.apiBaseUri}/databaseUsers`,
+        `${instance.apiBaseUriVisible}/databaseUsers`,
         {
           databaseName: "admin",
           groupId: projectId,
@@ -199,10 +213,10 @@ describe("Project", () => {
       const spyDelete = vi
         .spyOn(Project.prototype, "delete")
         .mockReturnValue(Promise.resolve(mockedValue));
-      const instance = new Project(publicKey, privateKey, projectId);
+      const instance = new TestProject(publicKey, privateKey, projectId);
       expect(await instance.removeAdminUser(username)).toEqual(mockedValue);
       expect(spyDelete).toHaveBeenCalledWith(
-        `${instance.apiBaseUri}/databaseUsers/admin/${username}`,
+        `${instance.apiBaseUriVisible}/databaseUsers/admin/${username}`,
       );
     });
 
@@ -214,10 +228,10 @@ describe("Project", () => {
       const spyDelete = vi
         .spyOn(Project.prototype, "delete")
         .mockReturnValue(Promise.resolve(mockedValue));
-      const instance = new Project(publicKey, privateKey, projectId);
+      const instance = new TestProject(publicKey, privateKey, projectId);
       expect(await instance.removeAdminUser(username)).toEqual(mockedValue);
       expect(spyDelete).toHaveBeenCalledWith(
-        `${instance.apiBaseUri}/databaseUsers/admin/${username}`,
+        `${instance.apiBaseUriVisible}/databaseUsers/admin/${username}`,
       );
     });
   });
@@ -240,10 +254,10 @@ describe("Project", () => {
       const spy = vi
         .spyOn(Project.prototype, "getAll")
         .mockReturnValue(Promise.resolve(mockedValue));
-      const instance = new Project(publicKey, privateKey, projectId);
+      const instance = new TestProject(publicKey, privateKey, projectId);
       expect(await instance.getIPs()).toEqual(mockedValue);
       expect(spy).toHaveBeenCalledWith({
-        url: `${instance.apiBaseUri}/accessList`,
+        url: `${instance.apiBaseUriVisible}/accessList`,
       });
     });
   });
@@ -261,13 +275,16 @@ describe("Project", () => {
       const spy = vi
         .spyOn(Project.prototype, "post")
         .mockReturnValue(Promise.resolve(mockedValue));
-      const instance = new Project(publicKey, privateKey, projectId);
+      const instance = new TestProject(publicKey, privateKey, projectId);
       expect(await instance.addIP("111.111.111.111/24")).toEqual(mockedValue);
-      expect(spy).toHaveBeenCalledWith(`${instance.apiBaseUri}/accessList`, [
-        {
-          cidrBlock: "111.111.111.111/24",
-        },
-      ]);
+      expect(spy).toHaveBeenCalledWith(
+        `${instance.apiBaseUriVisible}/accessList`,
+        [
+          {
+            cidrBlock: "111.111.111.111/24",
+          },
+        ],
+      );
     });
 
     it("success", async () => {
@@ -290,13 +307,16 @@ describe("Project", () => {
       const spy = vi
         .spyOn(Project.prototype, "post")
         .mockReturnValue(Promise.resolve(mockedValue));
-      const instance = new Project(publicKey, privateKey, projectId);
+      const instance = new TestProject(publicKey, privateKey, projectId);
       expect(await instance.addIP("111.111.111.111/24")).toEqual(mockedValue);
-      expect(spy).toHaveBeenCalledWith(`${instance.apiBaseUri}/accessList`, [
-        {
-          cidrBlock: "111.111.111.111/24",
-        },
-      ]);
+      expect(spy).toHaveBeenCalledWith(
+        `${instance.apiBaseUriVisible}/accessList`,
+        [
+          {
+            cidrBlock: "111.111.111.111/24",
+          },
+        ],
+      );
     });
   });
 
@@ -313,10 +333,10 @@ describe("Project", () => {
       const spyDelete = vi
         .spyOn(Project.prototype, "delete")
         .mockReturnValue(Promise.resolve(mockedValue));
-      const instance = new Project(publicKey, privateKey, projectId);
+      const instance = new TestProject(publicKey, privateKey, projectId);
       expect(await instance.removeIP(ip)).toEqual(mockedValue);
       expect(spyDelete).toHaveBeenCalledWith(
-        `${instance.apiBaseUri}/accessList/${encodeURIComponent(ip)}`,
+        `${instance.apiBaseUriVisible}/accessList/${encodeURIComponent(ip)}`,
       );
     });
 
@@ -328,10 +348,10 @@ describe("Project", () => {
       const spyDelete = vi
         .spyOn(Project.prototype, "delete")
         .mockReturnValue(Promise.resolve(mockedValue));
-      const instance = new Project(publicKey, privateKey, projectId);
+      const instance = new TestProject(publicKey, privateKey, projectId);
       expect(await instance.removeIP(ip)).toEqual(mockedValue);
       expect(spyDelete).toHaveBeenCalledWith(
-        `${instance.apiBaseUri}/accessList/${encodeURIComponent(ip)}`,
+        `${instance.apiBaseUriVisible}/accessList/${encodeURIComponent(ip)}`,
       );
     });
   });
