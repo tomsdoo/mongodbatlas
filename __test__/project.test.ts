@@ -1,11 +1,4 @@
-import {
-  afterEach,
-  beforeEach,
-  describe,
-  it,
-  expect,
-  jest,
-} from "@jest/globals";
+import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
 import { MongoDbAtlasBase } from "@/base";
 import { Project } from "@/project";
 import { Clusters } from "@/clusters";
@@ -17,7 +10,7 @@ describe("Project", () => {
   const projectId = "dummyProjectId";
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   beforeEach(() => {});
@@ -56,7 +49,7 @@ describe("Project", () => {
       const instance = new Project(publicKey, privateKey, projectId);
       expect(instance).toHaveProperty(
         "apiBaseUri",
-        `${mongoDbAtlasBase.apiBaseUri as string}/groups/${projectId}`
+        `${mongoDbAtlasBase.apiBaseUri}/groups/${projectId}`
       );
     });
 
@@ -83,7 +76,7 @@ describe("Project", () => {
     const mockedProject = {
       name: "dummyProjectName",
     };
-    const spyBaseGet = jest
+    const spyBaseGet = vi
       .spyOn(MongoDbAtlasBase.prototype, "get")
       .mockReturnValue(Promise.resolve(mockedProject));
     const instance = new Project(publicKey, privateKey, projectId);
@@ -113,7 +106,7 @@ describe("Project", () => {
         },
       ],
     };
-    const spyBaseGet = jest
+    const spyBaseGet = vi
       .spyOn(MongoDbAtlasBase.prototype, "get")
       .mockReturnValue(Promise.resolve(mockedValue));
     const instance = new Project(publicKey, privateKey, projectId);
@@ -127,20 +120,18 @@ describe("Project", () => {
         },
       },
     ]);
-    expect(spyBaseGet).toHaveBeenCalledWith(
-      `${instance.apiBaseUri as string}/clusters`
-    );
+    expect(spyBaseGet).toHaveBeenCalledWith(`${instance.apiBaseUri}/clusters`);
   });
 
   it("getUsers()", async () => {
     const mockedValue = [];
-    const spyGetAll = jest
+    const spyGetAll = vi
       .spyOn(Project.prototype, "getAll")
       .mockReturnValue(Promise.resolve(mockedValue));
     const instance = new Project(publicKey, privateKey, projectId);
     expect(await instance.getUsers()).toEqual(mockedValue);
     expect(spyGetAll).toHaveBeenCalledWith({
-      url: `${instance.apiBaseUri as string}/databaseUsers`,
+      url: `${instance.apiBaseUri}/databaseUsers`,
     });
   });
 
@@ -156,7 +147,7 @@ describe("Project", () => {
       };
       const username = "dummyUserName";
       const password = "listedPassword";
-      const spyPost = jest
+      const spyPost = vi
         .spyOn(Project.prototype, "post")
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
@@ -164,7 +155,7 @@ describe("Project", () => {
         mockedValue
       );
       expect(spyPost).toHaveBeenCalledWith(
-        `${instance.apiBaseUri as string}/databaseUsers`,
+        `${instance.apiBaseUri}/databaseUsers`,
         {
           databaseName: "admin",
           groupId: projectId,
@@ -179,7 +170,7 @@ describe("Project", () => {
       const mockedValue = {};
       const username = "dummyUserName";
       const password = "dummyPassword1234!#";
-      const spyPost = jest
+      const spyPost = vi
         .spyOn(Project.prototype, "post")
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
@@ -187,7 +178,7 @@ describe("Project", () => {
         mockedValue
       );
       expect(spyPost).toHaveBeenCalledWith(
-        `${instance.apiBaseUri as string}/databaseUsers`,
+        `${instance.apiBaseUri}/databaseUsers`,
         {
           databaseName: "admin",
           groupId: projectId,
@@ -205,13 +196,13 @@ describe("Project", () => {
         status: 404,
       };
       const username = "dummyUserName";
-      const spyDelete = jest
+      const spyDelete = vi
         .spyOn(Project.prototype, "delete")
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.removeAdminUser(username)).toEqual(mockedValue);
       expect(spyDelete).toHaveBeenCalledWith(
-        `${instance.apiBaseUri as string}/databaseUsers/admin/${username}`
+        `${instance.apiBaseUri}/databaseUsers/admin/${username}`
       );
     });
 
@@ -220,13 +211,13 @@ describe("Project", () => {
         status: 204,
       };
       const username = "dummyUserName";
-      const spyDelete = jest
+      const spyDelete = vi
         .spyOn(Project.prototype, "delete")
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.removeAdminUser(username)).toEqual(mockedValue);
       expect(spyDelete).toHaveBeenCalledWith(
-        `${instance.apiBaseUri as string}/databaseUsers/admin/${username}`
+        `${instance.apiBaseUri}/databaseUsers/admin/${username}`
       );
     });
   });
@@ -246,13 +237,13 @@ describe("Project", () => {
           ],
         },
       ];
-      const spy = jest
+      const spy = vi
         .spyOn(Project.prototype, "getAll")
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.getIPs()).toEqual(mockedValue);
       expect(spy).toHaveBeenCalledWith({
-        url: `${instance.apiBaseUri as string}/accessList`,
+        url: `${instance.apiBaseUri}/accessList`,
       });
     });
   });
@@ -267,19 +258,16 @@ describe("Project", () => {
         parameters: [null],
         reason: "Bad Request",
       };
-      const spy = jest
+      const spy = vi
         .spyOn(Project.prototype, "post")
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.addIP("111.111.111.111/24")).toEqual(mockedValue);
-      expect(spy).toHaveBeenCalledWith(
-        `${instance.apiBaseUri as string}/accessList`,
-        [
-          {
-            cidrBlock: "111.111.111.111/24",
-          },
-        ]
-      );
+      expect(spy).toHaveBeenCalledWith(`${instance.apiBaseUri}/accessList`, [
+        {
+          cidrBlock: "111.111.111.111/24",
+        },
+      ]);
     });
 
     it("success", async () => {
@@ -299,19 +287,16 @@ describe("Project", () => {
           },
         ],
       };
-      const spy = jest
+      const spy = vi
         .spyOn(Project.prototype, "post")
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.addIP("111.111.111.111/24")).toEqual(mockedValue);
-      expect(spy).toHaveBeenCalledWith(
-        `${instance.apiBaseUri as string}/accessList`,
-        [
-          {
-            cidrBlock: "111.111.111.111/24",
-          },
-        ]
-      );
+      expect(spy).toHaveBeenCalledWith(`${instance.apiBaseUri}/accessList`, [
+        {
+          cidrBlock: "111.111.111.111/24",
+        },
+      ]);
     });
   });
 
@@ -325,13 +310,13 @@ describe("Project", () => {
         parameters: [ip, projectId],
         reason: "Not Found",
       };
-      const spyDelete = jest
+      const spyDelete = vi
         .spyOn(Project.prototype, "delete")
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.removeIP(ip)).toEqual(mockedValue);
       expect(spyDelete).toHaveBeenCalledWith(
-        `${instance.apiBaseUri as string}/accessList/${encodeURIComponent(ip)}`
+        `${instance.apiBaseUri}/accessList/${encodeURIComponent(ip)}`
       );
     });
 
@@ -340,13 +325,13 @@ describe("Project", () => {
       const mockedValue = {
         status: 204,
       };
-      const spyDelete = jest
+      const spyDelete = vi
         .spyOn(Project.prototype, "delete")
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.removeIP(ip)).toEqual(mockedValue);
       expect(spyDelete).toHaveBeenCalledWith(
-        `${instance.apiBaseUri as string}/accessList/${encodeURIComponent(ip)}`
+        `${instance.apiBaseUri}/accessList/${encodeURIComponent(ip)}`
       );
     });
   });

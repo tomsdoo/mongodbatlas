@@ -1,11 +1,4 @@
-import {
-  afterEach,
-  beforeEach,
-  describe,
-  it,
-  expect,
-  jest,
-} from "@jest/globals";
+import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
 import { MongoDbAtlasBase } from "@/base";
 import { Projects } from "@/projects";
 
@@ -14,7 +7,7 @@ describe("Projects", () => {
   const privateKey = "dummyPrivateKey";
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   beforeEach(() => {});
@@ -48,7 +41,7 @@ describe("Projects", () => {
         ],
         orgId: `orgId${i}`,
       }));
-    const spyGet = jest
+    const spyGet = vi
       .spyOn(Projects.prototype, "get")
       .mockImplementation((url: string) => {
         const searchParams = new URL(url).searchParams;
@@ -75,7 +68,7 @@ describe("Projects", () => {
     const orgId = "dummyOrgId";
     const name = "dummyName";
     const mockedValue = {};
-    const spyPost = jest
+    const spyPost = vi
       .spyOn(Projects.prototype, "post")
       .mockReturnValue(Promise.resolve(mockedValue));
     const instance = new Projects(publicKey, privateKey);
