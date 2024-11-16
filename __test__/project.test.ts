@@ -19,28 +19,28 @@ describe("Project", () => {
     it("inherits MongoDbAtlasBase", () => {
       expect(
         new Project(publicKey, privateKey, projectId) instanceof
-          MongoDbAtlasBase
+          MongoDbAtlasBase,
       ).toBe(true);
     });
 
     it("has publicKey", () => {
       expect(new Project(publicKey, privateKey, projectId)).toHaveProperty(
         "publicKey",
-        publicKey
+        publicKey,
       );
     });
 
     it("has privateKey", () => {
       expect(new Project(publicKey, privateKey, projectId)).toHaveProperty(
         "privateKey",
-        privateKey
+        privateKey,
       );
     });
 
     it("has projectId", () => {
       expect(new Project(publicKey, privateKey, projectId)).toHaveProperty(
         "projectId",
-        projectId
+        projectId,
       );
     });
 
@@ -49,7 +49,7 @@ describe("Project", () => {
       const instance = new Project(publicKey, privateKey, projectId);
       expect(instance).toHaveProperty(
         "apiBaseUri",
-        `${mongoDbAtlasBase.apiBaseUri}/groups/${projectId}`
+        `${mongoDbAtlasBase.apiBaseUri}/groups/${projectId}`,
       );
     });
 
@@ -66,7 +66,7 @@ describe("Project", () => {
       const clusterInstance = new Project(
         publicKey,
         privateKey,
-        projectId
+        projectId,
       ).cluster(clusterName);
       expect(clusterInstance instanceof Cluster).toBe(true);
     });
@@ -152,7 +152,7 @@ describe("Project", () => {
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.addAdminUser(username, password)).toEqual(
-        mockedValue
+        mockedValue,
       );
       expect(spyPost).toHaveBeenCalledWith(
         `${instance.apiBaseUri}/databaseUsers`,
@@ -162,7 +162,7 @@ describe("Project", () => {
           roles: [{ databaseName: "admin", roleName: "atlasAdmin" }],
           username,
           password,
-        }
+        },
       );
     });
 
@@ -175,7 +175,7 @@ describe("Project", () => {
         .mockReturnValue(Promise.resolve(mockedValue));
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.addAdminUser(username, password)).toEqual(
-        mockedValue
+        mockedValue,
       );
       expect(spyPost).toHaveBeenCalledWith(
         `${instance.apiBaseUri}/databaseUsers`,
@@ -185,7 +185,7 @@ describe("Project", () => {
           roles: [{ databaseName: "admin", roleName: "atlasAdmin" }],
           username,
           password,
-        }
+        },
       );
     });
   });
@@ -202,7 +202,7 @@ describe("Project", () => {
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.removeAdminUser(username)).toEqual(mockedValue);
       expect(spyDelete).toHaveBeenCalledWith(
-        `${instance.apiBaseUri}/databaseUsers/admin/${username}`
+        `${instance.apiBaseUri}/databaseUsers/admin/${username}`,
       );
     });
 
@@ -217,7 +217,7 @@ describe("Project", () => {
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.removeAdminUser(username)).toEqual(mockedValue);
       expect(spyDelete).toHaveBeenCalledWith(
-        `${instance.apiBaseUri}/databaseUsers/admin/${username}`
+        `${instance.apiBaseUri}/databaseUsers/admin/${username}`,
       );
     });
   });
@@ -316,7 +316,7 @@ describe("Project", () => {
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.removeIP(ip)).toEqual(mockedValue);
       expect(spyDelete).toHaveBeenCalledWith(
-        `${instance.apiBaseUri}/accessList/${encodeURIComponent(ip)}`
+        `${instance.apiBaseUri}/accessList/${encodeURIComponent(ip)}`,
       );
     });
 
@@ -331,7 +331,7 @@ describe("Project", () => {
       const instance = new Project(publicKey, privateKey, projectId);
       expect(await instance.removeIP(ip)).toEqual(mockedValue);
       expect(spyDelete).toHaveBeenCalledWith(
-        `${instance.apiBaseUri}/accessList/${encodeURIComponent(ip)}`
+        `${instance.apiBaseUri}/accessList/${encodeURIComponent(ip)}`,
       );
     });
   });

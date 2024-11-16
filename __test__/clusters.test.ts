@@ -24,7 +24,7 @@ describe("Clusters", () => {
       const instance = new Clusters(publicKey, privateKey, projectId);
       expect(instance).toHaveProperty(
         "apiBaseUri",
-        `${base.apiBaseUri}/groups/${projectId}/clusters`
+        `${base.apiBaseUri}/groups/${projectId}/clusters`,
       );
     });
   });

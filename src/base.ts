@@ -24,7 +24,7 @@ export class MongoDbAtlasBase {
   protected async sendCore(
     method: string,
     url: string,
-    body?: any
+    body?: any,
   ): Promise<any> {
     // eslint-disable-next-line @typescript-eslint/return-await
     return await this.getClient()

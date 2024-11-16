@@ -103,7 +103,7 @@ export class Project extends MongoDbAtlasBase {
       this.publicKey,
       this.privateKey,
       this.projectId,
-      clusterName
+      clusterName,
     );
   }
 
@@ -116,8 +116,9 @@ export class Project extends MongoDbAtlasBase {
       .get(`${this.apiBaseUri}/clusters`)
       .then(({ results }) =>
         results.filter(
-          (cluster: any) => cluster?.providerSettings?.instanceSizeName === "M0"
-        )
+          (cluster: any) =>
+            cluster?.providerSettings?.instanceSizeName === "M0",
+        ),
       );
   }
 
@@ -129,7 +130,7 @@ export class Project extends MongoDbAtlasBase {
 
   public async addAdminUser(
     username: string,
-    password: string
+    password: string,
   ): Promise<DatabaseUser> {
     return await this.post(`${this.apiBaseUri}/databaseUsers`, {
       databaseName: "admin",
@@ -142,7 +143,7 @@ export class Project extends MongoDbAtlasBase {
 
   public async removeAdminUser(username: string): Promise<{ status: number }> {
     return await this.delete(
-      `${this.apiBaseUri}/databaseUsers/admin/${username}`
+      `${this.apiBaseUri}/databaseUsers/admin/${username}`,
     );
   }
 
@@ -153,7 +154,7 @@ export class Project extends MongoDbAtlasBase {
   }
 
   public async addIP(
-    ip: string
+    ip: string,
   ): Promise<{ totalCount: number; results: Access[] }> {
     return await this.post(`${this.apiBaseUri}/accessList`, [
       {
@@ -164,7 +165,7 @@ export class Project extends MongoDbAtlasBase {
 
   public async removeIP(ip: string): Promise<{ status: number }> {
     return await this.delete(
-      `${this.apiBaseUri}/accessList/${encodeURIComponent(ip)}`
+      `${this.apiBaseUri}/accessList/${encodeURIComponent(ip)}`,
     );
   }
 }
