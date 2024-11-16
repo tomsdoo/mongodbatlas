@@ -4,7 +4,7 @@ module.exports = {
     node: true
   },
   extends: [
-    'standard-with-typescript',
+    "./.eslintrc-love-temp.js",
     "prettier",
   ],
   overrides: [

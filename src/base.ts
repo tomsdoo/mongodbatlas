@@ -1,10 +1,10 @@
-// @ts-expect-error
+// @ts-expect-error synthetic default imports
 import DigestFetch from "digest-fetch";
 
 interface GetAllOptions {
   url?: string;
   itemsPerPage?: number;
-  transform?: Function;
+  transform?: (v: any) => any;
 }
 
 export class MongoDbAtlasBase {
