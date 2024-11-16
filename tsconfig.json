@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
+    "lib": ["esnext"],
     "declaration": true,
     "strict": true,
+    "target": "es2022",
+    "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
