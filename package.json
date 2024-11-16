@@ -49,7 +49,7 @@
     "eslint-config-prettier": "9.1.0",
     "eslint-config-standard-with-typescript": "23.0.0",
     "eslint-plugin-import": "2.31.0",
-    "eslint-plugin-n": "15.6.0",
+    "eslint-plugin-n": "17.13.2",
     "eslint-plugin-promise": "6.1.1",
     "husky": "8.0.2",
     "lint-staged": "13.1.0",
