@@ -15,7 +15,7 @@ const digestFetchCalledHistory = {
 };
 
 vi.mock("digest-fetch", () => ({
-  DigestClient: class DigestClient {
+  default: class DigestFetch {
     public user: string;
     public password: string;
     constructor(user: string, password: string) {

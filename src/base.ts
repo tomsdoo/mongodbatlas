@@ -1,4 +1,5 @@
-import { DigestClient } from "digest-fetch";
+// @ts-expect-error synthetic default imports
+import DigestFetch from "digest-fetch";
 
 interface GetAllOptions {
   url?: string;
@@ -16,8 +17,8 @@ export class MongoDbAtlasBase {
     this.privateKey = privateKey;
   }
 
-  protected getClient(): DigestClient {
-    return new DigestClient(this.publicKey, this.privateKey);
+  protected getClient(): DigestFetch {
+    return new DigestFetch(this.publicKey, this.privateKey);
   }
 
   protected async sendCore(
