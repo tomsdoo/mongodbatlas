@@ -1,12 +1,13 @@
 {
   "name": "@tomsd/mongodbatlas",
-  "version": "1.1.0",
+  "version": "2.0.0-alpha.0",
   "description": "It's a library for MongoDB Atlas.",
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
   "types": "./dist/index.d.ts",
@@ -68,7 +69,6 @@
     "vitest": "2.1.5"
   },
   "dependencies": {
-    "digest-fetch": "2.0.1",
-    "node-fetch": "2.6.7"
+    "digest-fetch": "3.1.1"
   }
 }

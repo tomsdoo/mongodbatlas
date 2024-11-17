@@ -8,15 +8,14 @@ import {
   type MockInstance,
 } from "vitest";
 import { MongoDbAtlasBase } from "@/base";
-// @ts-expect-error typeof digets-fetch
-import type DigestFetch from "digest-fetch";
+import type { DigestClient } from "digest-fetch";
 
 const { spyConstructor } = vi.hoisted(() => ({
   spyConstructor: vi.fn(),
 }));
 
 vi.mock("digest-fetch", () => ({
-  default: class DigestFetch {
+  DigestClient: class DigestClient {
     public user: string;
     public password: string;
     constructor(user: string, password: string) {
@@ -38,7 +37,7 @@ describe("MongoDbAtlasBase", () => {
   const privateKey = "dummyPrivateKey";
 
   class TestMongoDbAtlasBase extends MongoDbAtlasBase {
-    public getClient(): DigestFetch {
+    public getClient(): DigestClient {
       return super.getClient();
     }
 
@@ -77,6 +76,7 @@ describe("MongoDbAtlasBase", () => {
     beforeEach(() => {
       spyGetClient = vi
         .spyOn(TestMongoDbAtlasBase.prototype, "getClient")
+        // @ts-expect-error type of instance
         .mockReturnValue({
           fetch: async (url: string, options?: any) =>
             await Promise.resolve({
