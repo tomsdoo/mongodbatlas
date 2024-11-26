@@ -1,7 +1,7 @@
-import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
-import { Projects } from "@/projects";
-import { Project } from "@/project";
 import { MongoDbAtlas } from "@/index";
+import { Project } from "@/project";
+import { Projects } from "@/projects";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 describe("MongoDbAtlas", () => {
   const publicKey = "dummyPublicKey";
@@ -10,8 +10,6 @@ describe("MongoDbAtlas", () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
-
-  beforeEach(() => {});
 
   it("has pubicKey", () => {
     expect(new MongoDbAtlas(publicKey, privateKey)).toHaveProperty(

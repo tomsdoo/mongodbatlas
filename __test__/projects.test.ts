@@ -1,6 +1,6 @@
-import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
 import { MongoDbAtlasBase } from "@/base";
 import { Projects } from "@/projects";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 describe("Projects", () => {
   const publicKey = "dummyPublicKey";
@@ -15,8 +15,6 @@ describe("Projects", () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
-
-  beforeEach(() => {});
 
   it("has publicKey", () => {
     const instance = new Projects(publicKey, privateKey);
@@ -34,19 +32,17 @@ describe("Projects", () => {
   });
 
   it("getAll()", async () => {
-    const records = Array(199)
-      .fill(0)
-      .map((_, i) => ({
-        id: `id${i}`,
-        name: `name${i}`,
-        links: [
-          {
-            rel: `self`,
-            href: `href${i}`,
-          },
-        ],
-        orgId: `orgId${i}`,
-      }));
+    const records = new Array(199).fill(0).map((_, i) => ({
+      id: `id${i}`,
+      name: `name${i}`,
+      links: [
+        {
+          rel: `self`,
+          href: `href${i}`,
+        },
+      ],
+      orgId: `orgId${i}`,
+    }));
     const spyGet = vi
       .spyOn(Projects.prototype, "get")
       .mockImplementation(async (url?: string) => {

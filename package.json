@@ -18,24 +18,17 @@
     "build": "tsup",
     "build:esm": "tsc --project tsconfig.esm.json",
     "build:cjs": "tsc --project tsconfig.cjs.json",
-    "format": "npm run format:src && npm run format:test",
-    "format:test": "prettier --write __test__/**/*.ts",
-    "format:src": "prettier --write src/**/*.ts",
-    "lint": "npm run lint:src && npm run lint:test",
-    "lint:src": "ESLINT_USE_FLAT_CONFIG=false eslint src/**/*.ts",
-    "lint:test": "ESLINT_USE_FLAT_CONFIG=false eslint __test__/**/*.ts",
+    "lint": "biome check",
     "prepare": "husky",
     "serve:doc": "mdbook --serve --directory docs",
     "test": "vitest"
   },
   "lint-staged": {
     "__test__/**/*.ts": [
-      "npm run lint:test",
-      "npm run format:test"
+      "npm run lint"
     ],
     "src/**/*.ts": [
-      "npm run lint:src",
-      "npm run format:src"
+      "npm run lint"
     ]
   },
   "repository": {
@@ -52,17 +45,11 @@
   },
   "homepage": "https://github.com/tomsdoo/mongodbatlas#readme",
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@tomsd/md-book": "1.3.3",
     "@types/node": "22.10.0",
-    "@typescript-eslint/eslint-plugin": "8.16.0",
-    "eslint": "9.15.0",
-    "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-import": "2.31.0",
-    "eslint-plugin-n": "17.14.0",
-    "eslint-plugin-promise": "7.2.0",
     "husky": "9.1.7",
     "lint-staged": "15.2.10",
-    "prettier": "3.3.3",
     "ts-node": "10.9.2",
     "tsup": "8.3.5",
     "typescript": "5.7.2",

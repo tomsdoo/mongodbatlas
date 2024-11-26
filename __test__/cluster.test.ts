@@ -1,6 +1,6 @@
-import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
 import { MongoDbAtlasBase } from "@/base";
 import { Cluster } from "@/cluster";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 describe("Cluster", () => {
   const publicKey = "dummyPublicKey";
@@ -11,8 +11,6 @@ describe("Cluster", () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
-
-  beforeEach(() => {});
 
   describe("constructor", () => {
     let instance: Cluster;
