@@ -54,7 +54,7 @@
   "devDependencies": {
     "@tomsd/md-book": "1.3.3",
     "@types/node": "22.10.0",
-    "@typescript-eslint/eslint-plugin": "8.14.0",
+    "@typescript-eslint/eslint-plugin": "8.16.0",
     "eslint": "9.15.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-import": "2.31.0",
