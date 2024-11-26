@@ -16,18 +16,13 @@
   ],
   "scripts": {
     "build": "tsup",
-    "build:esm": "tsc --project tsconfig.esm.json",
-    "build:cjs": "tsc --project tsconfig.cjs.json",
     "lint": "biome check",
     "prepare": "husky",
     "serve:doc": "mdbook --serve --directory docs",
     "test": "vitest"
   },
   "lint-staged": {
-    "__test__/**/*.ts": [
-      "npm run lint"
-    ],
-    "src/**/*.ts": [
+    "**/*.ts": [
       "npm run lint"
     ]
   },

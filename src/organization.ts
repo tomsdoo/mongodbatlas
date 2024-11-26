@@ -1,4 +1,4 @@
-import { MongoDbAtlasBase } from "./base";
+import { MongoDbAtlasBase } from "@/base";
 
 interface User {
   country: string;
