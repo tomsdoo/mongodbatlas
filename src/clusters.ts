@@ -1,4 +1,4 @@
-import { MongoDbAtlasBase } from "./base";
+import { MongoDbAtlasBase } from "@/base";
 
 export class Clusters extends MongoDbAtlasBase {
   constructor(publicKey: string, privateKey: string, projectId: string) {

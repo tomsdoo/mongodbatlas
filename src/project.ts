@@ -1,6 +1,6 @@
-import { MongoDbAtlasBase } from "./base";
-import { Cluster } from "./cluster";
-import { Clusters } from "./clusters";
+import { MongoDbAtlasBase } from "@/base";
+import { Cluster } from "@/cluster";
+import { Clusters } from "@/clusters";
 
 interface ClusterInfo {
   autoScaling: {
