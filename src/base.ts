@@ -25,7 +25,6 @@ export class MongoDbAtlasBase {
     url: string,
     body?: any,
   ): Promise<any> {
-    // eslint-disable-next-line @typescript-eslint/return-await
     return await this.getClient()
       .fetch(url, {
         method,
@@ -33,11 +32,9 @@ export class MongoDbAtlasBase {
           "content-type": "application/json",
           accept: "application/json",
         },
-        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         ...(body ? { body: JSON.stringify(body) } : {}),
       })
-      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-      .then((res: any) => res.json().catch((e: Error) => res));
+      .then((res: any) => res.json().catch((_: Error) => res));
   }
 
   public async get(url?: string): Promise<any> {

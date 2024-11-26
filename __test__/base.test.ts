@@ -1,14 +1,14 @@
+import { MongoDbAtlasBase } from "@/base";
+import type { DigestClient } from "digest-fetch";
 import {
+  type MockInstance,
   afterEach,
   beforeEach,
   describe,
-  it,
   expect,
+  it,
   vi,
-  type MockInstance,
 } from "vitest";
-import { MongoDbAtlasBase } from "@/base";
-import type { DigestClient } from "digest-fetch";
 
 const { spyConstructor } = vi.hoisted(() => ({
   spyConstructor: vi.fn(),
@@ -24,7 +24,7 @@ vi.mock("digest-fetch", () => ({
       this.password = password;
     }
 
-    public async fetch(url: string, options?: any): Promise<any> {
+    public async fetch(_url: string, _options?: any): Promise<any> {
       return await Promise.resolve({
         json: async () => await Promise.resolve({}),
       });
@@ -53,8 +53,6 @@ describe("MongoDbAtlasBase", () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
-
-  beforeEach(() => {});
 
   it("constructor", () => {
     const instance = new TestMongoDbAtlasBase(publicKey, privateKey);

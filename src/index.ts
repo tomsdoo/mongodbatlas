@@ -1,7 +1,7 @@
 import { Organization } from "./organization";
 import { Organizations } from "./organizations";
-import { Projects } from "./projects";
 import { Project } from "./project";
+import { Projects } from "./projects";
 
 export { Projects } from "./projects";
 export { Project } from "./project";

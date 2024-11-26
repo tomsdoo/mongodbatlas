@@ -1,6 +1,6 @@
-import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
 import { MongoDbAtlasBase } from "@/base";
 import { Organization } from "@/organization";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 describe("Organization", () => {
   const publicKey = "dummyPublicKey";
@@ -22,8 +22,6 @@ describe("Organization", () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
-
-  beforeEach(() => {});
 
   describe("constructor", () => {
     it("has publicKey", () => {
