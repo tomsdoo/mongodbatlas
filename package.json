@@ -44,11 +44,11 @@
     "@tomsd/md-book": "1.3.7",
     "@types/node": "22.15.21",
     "husky": "9.1.7",
-    "lint-staged": "16.1.0",
+    "lint-staged": "16.1.2",
     "ts-node": "10.9.2",
     "tsup": "8.5.0",
     "typescript": "5.8.3",
-    "vitest": "3.1.4"
+    "vitest": "3.2.3"
   },
   "dependencies": {
     "digest-fetch": "3.1.1"
