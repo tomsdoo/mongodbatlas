@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "lib": ["esnext"],
-    "module":"ES2022",
+    "module": "ES2022",
     "declaration": true,
     "strict": true,
     "target": "es2022",

@@ -1,6 +1,6 @@
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { MongoDbAtlasBase } from "@/base";
 import { Organizations } from "@/organizations";
-import { afterEach, describe, expect, it, vi } from "vitest";
 
 describe("Organizations", () => {
   const publicKey = "dummyPublicKey";
