@@ -3,8 +3,8 @@ import { Organizations } from "@/organizations";
 import { Project } from "@/project";
 import { Projects } from "@/projects";
 
-export { Projects } from "@/projects";
 export { Project } from "@/project";
+export { Projects } from "@/projects";
 
 export class MongoDbAtlas {
   protected publicKey: string;
