@@ -74,17 +74,15 @@ describe("MongoDbAtlasBase", () => {
     beforeEach(() => {
       spyGetClient = vi
         .spyOn(TestMongoDbAtlasBase.prototype, "getClient")
-        // @ts-expect-error type of instance
         .mockReturnValue({
-          fetch: async (url: string, options?: any) =>
-            await Promise.resolve({
-              json: async () =>
-                await Promise.resolve({
-                  url,
-                  options,
-                }),
-            }),
-        });
+          async fetch(url: string, options?: any) {
+            return new Response(JSON.stringify({ url, options }), {
+              headers: {
+                "content-type": "application/json",
+              },
+            });
+          },
+        } as unknown as DigestClient);
     });
 
     it("GET", async () => {
