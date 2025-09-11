@@ -1,6 +1,6 @@
 {
   "name": "@tomsd/mongodbatlas",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "It's a library for MongoDB Atlas.",
   "type": "module",
   "exports": {
