@@ -40,9 +40,9 @@
   },
   "homepage": "https://github.com/tomsdoo/mongodbatlas#readme",
   "devDependencies": {
-    "@biomejs/biome": "2.5.0",
+    "@biomejs/biome": "2.5.1",
     "@tomsd/md-book": "2.1.0",
-    "@types/node": "26.0.0",
+    "@types/node": "26.0.1",
     "husky": "9.1.7",
     "lint-staged": "17.0.8",
     "ts-node": "10.9.2",
